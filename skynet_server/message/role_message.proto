@@ -1,0 +1,35 @@
+//MSG_ROLE_LIST_REQUEST_C2S
+message CMsgRoleListRequest
+{
+	required string accountid			= 1; 
+}
+
+message Role
+{
+	required int64 id					= 1; 
+	required string nickname 			= 2; 
+	required int32 level				= 3; 
+	required int32 roletype				= 4;
+}
+
+//MSG_ROLE_LIST_RESPONSE_S2C
+message CMsgRoleListResponse
+{
+	required int32 result 				= 1;
+	repeated Role roles					= 2;
+}
+
+//MSG_ROLE_CREATE_REQUEST_C2S
+message CMsgRoleCreateRequest
+{
+	required string accountid			= 1;
+	required string nickname			= 2; 
+	required int32 roletype				= 3;
+}
+
+//MSG_ROLE_CREATE_RESPONSE_S2C
+message CMsgRoleCreateResponse
+{
+	required int32 result 				= 1;
+	required Role role					= 2;	
+}

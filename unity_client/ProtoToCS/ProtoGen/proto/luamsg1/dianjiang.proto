@@ -1,0 +1,54 @@
+package dianjiang;
+
+import "common.proto";
+
+message req_dianjiang_panel
+{
+
+}
+
+message rsp_dianjiang_panel
+{
+	optional int32 result = 1[default = 0];
+	optional int32 end_take_recharge_award_time = 2[default = 0];
+	repeated int32 wujiang_list = 3;
+	repeated common.one_item recharge_item_list = 4;
+	repeated int32 hotspot_xinwu_list = 5;
+	optional int32 week_dianjiang_cost = 6[default = 0];
+	optional int32 week_take_recharge_award_rule = 7[default = 0];
+	optional int32 week_recharge_can_take = 8[default = 0];//0为不可领取，1为可以领取
+	optional int32 dianjiang_price = 9[default = 0];
+	optional int32 is_dianjiang_free = 10[default = 0];//0为不免费1为免费
+}
+
+message req_dianjiang
+{
+
+}
+
+message rsp_dianjiang
+{
+	optional int32 result = 1[default = 0];
+	repeated common.award_info dianjaing_award_list = 2;
+	optional int32 week_dianjiang_cost = 3[default = 0];
+	optional int32 week_recharge_can_take = 4[default = 0];//0为不可领取，1为可以领取
+	optional int32 week_take_recharge_award_rule = 5[default = 0];
+	optional int32 is_dianjiang_free = 6[default = 0];//0为不免费1为免费
+}
+
+message req_take_recharge_award
+{
+	
+}
+
+message rsp_take_recharge_award
+{
+	optional int32 result = 1[default = 0];
+	repeated common.award_info recharge_award_list = 2;
+	optional int32 week_recharge_can_take = 3[default = 0];//0为不可领取，1为可以领取,2为已领取
+}
+
+message ntf_have_free_dianjiang
+{
+	optional int32 today_dianjiang_times = 1[default = 0];
+}

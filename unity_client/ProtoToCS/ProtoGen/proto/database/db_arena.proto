@@ -1,0 +1,51 @@
+package db;
+
+import 'db_common.proto';
+
+//对战记录
+message one_fight_record
+{
+	optional int32 record_time = 1[default = 0];	//对战时间
+	optional int32 curr_rank = 2[default = 0];	//当时的排名 
+	optional int32 prev_rank = 3[default = 0];
+	optional uint32 uid = 4[default = 0];	//敌人的uid
+	optional int32 power = 5[default = 0];	//战力
+	optional int32 is_victory = 6[default = 1];	//是否胜利
+	optional int64 video_id = 7[default = 0];	//录像ID
+	optional int32 rival_level = 8[default = 0];
+}
+
+
+//正在打竞技场的记录
+message one_fighting_info
+{
+	optional uint32 rival_uid = 1[default = 0];	//对手的UID
+	optional int32 start_time = 2[default = 0];	//发起战斗的时间
+	optional int32 fight_seq = 3[default = 0];	//战斗序号，防止作弊
+	optional int32 rival_power = 4[default = 0];	//对手的战力
+	optional int32 self_power = 5[default = 0];	//自己挑战时候的战力
+	optional int32 rival_level = 6[default = 0];
+	optional int32 self_level = 7[default = 0];
+	repeated int32 wujiang_list = 8;
+}
+
+//竞技场数据
+message Arena
+{
+	optional int32 rank = 1[default = 0];		//当前的排名
+	optional int32 highest_rank = 2[default = 0];	//历史上最高排名
+	repeated uint32 rival_list = 3;		//记录上一次选中的对手uid
+	optional int32 last_challenge_time = 4[default = 0];	//上一次挑战的时间
+	repeated one_fight_record fight_record_list = 10;	 //对战记录列表
+	repeated one_wujiang_simple_info def_list = 11; //防守阵容
+	optional int32 def_power = 12[default = 0];	//防守阵容战力
+	optional one_fighting_info fighting_info = 13;
+	repeated one_zhenfa zhenfa_list = 14;	//阵法列表
+	optional one_dragon dragon_info = 15;	//防守的召唤兽
+	optional int32 win_times = 16[default = 0];//历史上赢的次数
+	optional int32 zhenfa_power = 17[default = 0];	//阵法的总战力
+	optional int32 dragon_power = 18[default =0 ];
+	optional one_camps_def_info camps_def_info = 19; //闯连营阵容
+	optional int32 defence_times = 20[default = 0]; //防守成功次数
+}
+

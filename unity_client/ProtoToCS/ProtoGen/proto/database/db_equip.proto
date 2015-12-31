@@ -1,0 +1,33 @@
+package db;
+
+//一件装备数据
+message one_equip
+{
+	optional int32 equip_id = 1[default = 0];
+	optional int32 equip_seq = 2[default = 0];
+	optional int32 level = 3[default = 0];
+	optional int32 intensify_point = 4[default = 0];	//这件装备至今消耗的强化点数
+	optional int32 color = 5[default = 0];	//出生颜色
+	optional int32 refine_time = 6[default = 0];	//精练次数
+	optional int32 bind_wujiang = 7[default = 0];	//当前绑定的武将，0表示无绑定
+}
+
+//坐骑数据
+message one_horse
+{
+	optional int32 horse_id = 1[default = 0];
+	optional int32 horse_seq = 2[default = 0];
+	optional int32 level = 4[default = 0];
+	optional int32 exp = 5[default = 0];
+	optional int32 evolved_level = 6[default = 0];	//进化等级
+	optional int32 bind_wujiang = 7[default = 0];	//绑定的武将
+}
+
+message Equip
+{
+	optional int32 equip_seq = 1[default = 1];//这里的seq初始值是1
+	repeated one_equip equip_list = 2;
+
+	optional int32 horse_seq = 3[default = 1];
+	repeated one_horse horse_list = 4;
+}

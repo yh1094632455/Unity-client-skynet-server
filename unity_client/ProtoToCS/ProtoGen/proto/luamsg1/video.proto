@@ -1,0 +1,23 @@
+package video;
+
+message req_video
+{
+	optional int64 video_id = 1[default = 0];
+}
+
+message rsp_video
+{
+	optional int32 result = 1[default = 0];	//0成功，-1没有该录像
+	optional bytes video_stream = 2[default = ''];
+}
+
+message req_video_brief
+{
+	optional int64 video_id = 1[default = 0];
+}
+
+message rsp_video_brief
+{
+	optional int32 result = 1[default = 0];	//0成功，-1没有该录像
+	optional bytes brief_stream = 2[default = ''];
+}

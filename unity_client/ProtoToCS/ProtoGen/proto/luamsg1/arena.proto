@@ -1,0 +1,209 @@
+package arena;
+
+import 'common.proto';
+
+message one_defend_wujiang_info 
+{
+	optional int32 id = 1[default = 0];
+	optional int32 level = 2[default = 0];	//当前等级
+	optional int32 stage = 4[default = 0];//当前品阶
+	optional int32 star = 6[default = 0];//当前星
+	optional int32 pos = 7[default = 0];
+}
+
+//竞技场个人面板
+message req_personal_panel
+{
+
+}
+
+//单个对手的信息
+message one_rival_info
+{
+	optional uint32 uid = 1[default = 0];
+	optional int32 rank = 2[default = 0];
+	optional int32 power = 3[default = 0];
+	repeated one_defend_wujiang_info def_wujiang_list = 4;	//出战的武将
+	optional string guild_name = 5[default = ''];	//军团名称
+	optional string user_name = 6[default = ''];	//玩家名字
+	optional int32 level = 7[default = 0];	//主公等级
+	optional int32 use_icon = 8[default = 0];
+	repeated common.one_zhenfa zhenfa_list = 10;
+	optional int32 win_times = 11[default = 0];
+}
+
+message rsp_personal_panel
+{
+	optional int32 result = 1[default = 0];
+	repeated one_rival_info rival_list = 2;	//对手的信息
+	optional int32 next_challenge_time = 3[default = 0];	//下一次可挑战的时间
+	optional int32 today_arena_times = 4[default = 0];	//已挑战的次数
+	optional int32 highest_rank = 5[default = 0];	//历史最高排名
+	optional int32 arena_times_limit = 6[default = 5];	//挑战竞技场次数上限
+	optional int32 remain_buy_arena_times = 7[default = 0];//剩余购买竞技场次数
+	optional int32 rank = 8[default = 0];	//当前自己的排名
+}
+
+//取得玩家的防守信息
+message req_defend_info
+{
+	optional uint32 uid = 1[default = 0];
+}
+
+message rsp_defend_info
+{
+	optional int32 result = 1[default = 0];	//-1没有这个玩家的防守信息
+	repeated one_defend_wujiang_info def_wujiang_list = 2;
+	repeated common.one_zhenfa zhenfa_list = 3;
+
+	optional uint32 uid = 4[default = 0];
+	optional string name = 5[default = ''];
+	optional int32 use_icon = 6[default = 0];
+	optional int32 level = 7[default = 0];
+	optional string guild_name = 8[default = ''];
+	optional int32 win_times = 9[default = 0];	//胜场次数
+
+	optional int32 rank = 10[default = 0];	//玩家的排名
+	optional int32 power = 11[default = 0];
+}
+
+//取得闯连营防守信息
+message req_camps_defend_info
+{
+	optional uint32 uid = 1[default = 0];
+}
+
+message rsp_camps_defend_info
+{
+	optional int32 result = 1[default = 0];	//-1没有这个玩家的防守信息
+	repeated one_defend_wujiang_info def_wujiang_list = 2;//主力武将
+	repeated one_defend_wujiang_info alternates_wujiang_list = 3;//替补武将
+	optional uint32 uid = 4[default = 0];
+	optional string name = 5[default = ''];
+	optional int32 use_icon = 6[default = 0];
+	optional int32 level = 7[default = 0];
+	optional string guild_name = 8[default = ''];
+	optional int32 power = 9[default = 0];
+	optional int32 hire_wujiang_trench = 10[default = 0];
+}
+
+
+//编辑防御阵容
+message req_edit_defend_info
+{
+	repeated int32 def_wujiang_list = 1;
+}
+
+message rsp_edit_defend_info
+{
+	optional int32 result = 1[default = 0];
+	repeated int32 def_wujiang_list = 2;
+}
+
+//刷新对手
+message req_refresh_rival
+{
+
+}
+
+message rsp_refresh_rival
+{
+	optional int32 result = 1[default = 0];
+	repeated one_rival_info rival_list = 2;	//对手的信息
+}
+
+message one_fight_record
+{
+	optional int32 record_time = 1[default = 0];	//对战时间
+	optional int32 curr_rank = 2[default = 0];	//当时的排名 
+	optional int32 prev_rank = 3[default = 0];
+	optional int32 power = 5[default = 0];	//战力
+	optional int32 is_victory = 6[default = 1];	//是否胜利
+	optional int64 video_id = 7[default = 0];	//录像ID
+	optional int32 use_icon = 8[default = 0];
+	optional string user_name = 9[default = ''];
+	optional int32 rival_level = 10[default = 0];	//对手等级
+}
+
+message req_fight_record
+{
+}
+
+message rsp_fight_record
+{
+	optional int32 result = 1[default = 0];
+	repeated one_fight_record fight_record_list = 2;
+}
+
+//请求进竞技场
+message req_enter_arena
+{
+	optional uint32 rival_uid = 1[default = 0];	//对手uid
+	optional common.one_buzhen_info buzhen_info = 2;
+}
+
+message rsp_enter_arena
+{
+	optional int32 result = 1[default = 0];
+	optional int32 is_winning = 2[default = 0];	//1代表胜利，0则否
+	optional int32 prev_rank = 3[default = 0];	//之前的排名
+	optional int32 curr_rank = 4[default = 0];	//当前的排名
+	optional int32 prev_highest_rank = 5[default = 0];
+	optional int32 curr_highest_rank = 6[default = 0];
+
+	repeated common.one_wujiang_get_exp wujiang_exp_list = 8;	//武将经验列表
+	optional int32 award_money = 9[default = 0];
+	optional int32 award_doubi = 10[default = 0];
+
+	optional int32 award_yuanbao = 11[default = 0];	//这个只在最高排名有超越的情况下才会有
+	optional bytes video_stream = 12[default = ''];	//录像流
+}
+
+//请求完成竞技场
+message req_finish_arena
+{
+	optional string check_token = 1[default = ''];
+	optional int32 victory = 2[default = 0];	//是否胜利，1胜利，0失败
+	optional bytes video_stream = 3[default = ''];	//录像流
+	optional string fight_detail = 4[default = ''];	//战斗详情
+}
+
+message rsp_finish_arena
+{
+	optional int32 result = 1[default = 0];	//0代表成功
+	optional int32 prev_rank = 3[default = 0];	//之前的排名
+	optional int32 curr_rank = 4[default = 0];	//当前的排名
+	optional int32 prev_highest_rank = 5[default = 0];
+	optional int32 curr_highest_rank = 6[default = 0];
+	repeated common.one_wujiang_get_exp wujiang_exp_list = 8;	//武将经验列表
+	optional int32 award_money = 9[default = 0];
+	optional int32 award_doubi = 10[default = 0];
+
+	optional int32 award_yuanbao = 11[default = 0];	//这个只在最高排名有超越的情况下才会有
+}
+
+message req_buy_arena_times//购买竞技场次数请求
+{
+
+}
+
+message rsp_buy_arena_times//购买竞技场次数响应
+{
+	optional int32 result = 1[default = 0];
+	optional int32 today_arena_times = 2[default = 0];
+	optional int32 arena_times_limit = 3[default = 0];
+	optional int32 remain_buy_arena_times = 4[default = 0];
+}
+
+message req_reset_time//重置竞技场等待时间
+{
+	
+}
+message rsp_reset_time
+{
+	optional int32 result = 1[default = 0];
+}
+message ntf_rival_fight_result
+{
+	optional int32 is_win = 1[default = 0];//0为失败，1为胜利
+}

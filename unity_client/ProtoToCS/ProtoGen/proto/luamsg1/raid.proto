@@ -1,0 +1,242 @@
+package raid;
+
+import 'common.proto';
+
+message one_sync_item_info
+{
+	optional uint32 uid = 1[default = 0];
+	optional int32 item_id = 2[default = 0];
+	optional int32 count = 3[default = 0];
+}
+
+message one_sync_player_info
+{
+	optional uint32 uid = 1[default = 0];
+	optional int32 power = 2[default = 0];
+	optional int32 zhenfa_safe_time = 4[default = 0];	//免战时间
+}
+
+message one_sync_power_chg
+{
+	optional uint32 uid = 1[default = 0];
+	optional int32 power = 2[default = 0];
+}
+
+message req_inner_sync_player_item
+{
+	repeated one_sync_item_info item_list = 1;
+	repeated one_sync_player_info player_list = 2;
+}
+
+message rsp_inner_sync_player_item
+{
+
+}
+
+message ntf_inner_sync_power_chg
+{
+	repeated one_sync_power_chg power_chg_list = 1;
+}
+
+message req_inner_search_target
+{
+	optional uint32 uid = 1[default = 0];	//自己的UID
+	optional int32 power = 2[default = 0];	//自己战力
+	optional int32 item_id = 3[default = 0];	//想要抢夺的道具id
+	optional int32 level = 4[default = 0];	//玩家等级
+	optional int32 first = 5[default = 0];
+}
+
+message rsp_inner_search_target
+{
+	repeated common.one_raid_target target_list = 1;
+	optional int32 item_id = 2[default = 0];	//想要抢夺的道具id
+}
+
+//RAID-SVR请求内部服务器的数据 
+message req_inner_query_user_info
+{
+
+}
+
+message rsp_inner_query_user_info
+{
+	optional int32 result = 1[default = 0];
+	optional common.one_raid_target target_info = 2;
+}
+
+
+//直接请求开战
+message req_inner_fight
+{
+	optional uint32 uid = 1[default = 0];
+	optional int32 power = 2[default = 0];
+	optional uint32 target_uid = 3[default = 0];
+	optional int32 item_id = 4[default = 0];
+	optional string battle_data_bin = 7[default = ''];	//个人的pvp数据
+	optional int32 svrid = 8[default = 0];
+	optional string guild_name = 9[default = ''];
+	optional string user_name = 10[default = ''];
+	optional int32 level = 11[default = 0];	//玩家等级
+	optional int32 use_icon = 12[default = 0];
+	optional int32 first = 13[default = 0];
+	optional int32 raid_failed_times = 14[default = 0];
+}
+
+message rsp_inner_fight
+{
+	optional int32 result = 1[default = 0];	//0表示成功
+	optional uint32 target_uid = 2[default = 0];
+	optional int32 item_id = 3[default = 0];	//抢的道具ID
+	optional string video_stream = 4[default = ''];	//录像内容
+
+	optional common.one_item stolen_item = 5;	//真正偷走的
+	repeated common.one_item baoxiang_show_list = 6;
+
+	optional int32 stolen_from_player = 7[default = 0];	//是否从玩家身上偷取获得，1为真，0为假
+	optional int32 fight_result = 8[default = 0];	//0表示对方输了,1表示对方赢了但没抢到东西，2表示对方赢了并抢到东西
+}
+
+message req_inner_fetch_battle_data
+{
+	optional uint32 uid = 1[default = 0];
+	optional int32 item_id = 4[default = 0];
+}
+
+message rsp_inner_fetch_battle_data
+{
+	optional int32 result = 1[default = 0]; //-1表示玩家没有这个道具,-2未知错误
+	optional int32 power = 3[default = 0];
+	optional int32 level = 4[default = 0];	//玩家的等级
+	optional string battle_data_bin = 5[default = ''];	//个人的pvp数据
+}
+
+message ntf_inner_raid_record
+{
+	optional int32 item_id = 1[default = 0];
+	optional string guild_name = 2[default = ''];
+	optional string user_name = 3[default = ''];
+	optional int32 fight_result = 4[default = 0];	//0表示对方输了,1表示对方赢了但没抢到东西，2表示对方赢了并抢到东西
+	optional int32 stolen_item_id = 5[default = 0];	//偷走的宝箱道具
+	optional bytes video_stream = 6[default = ''];	//录像内容
+	optional int32 level = 11[default = 0];	//玩家等级
+	optional int32 use_icon = 12[default = 0];
+}
+
+message ntf_inner_update_safe_time
+{
+	optional int32 zhenfa_safe_time = 2[default = 0];
+	optional int32 power = 3[default = 0];
+}
+
+/////////////////////////////////下面的都是与客户端的交互的//////////////////////////
+message req_search_target
+{
+	optional int32 item_id = 1[default = 0];	//想要抢夺的道具id
+}
+
+message rsp_search_target
+{
+	optional int32 result = 1[default = 0];
+	optional int32 remain_buy_raid_times = 2[default = 0];
+	optional int32 today_raid_times = 3[default = 0];
+	optional int32 raid_times_limit = 4[default = 0];
+	repeated common.one_raid_target target_list = 5;
+	optional int32 raid_record_mak = 6[default = 0];//1为有新的录像，0为没有
+}
+
+message req_fight
+{
+	optional uint32 uid = 1[default = 0];
+}
+
+message rsp_fight
+{
+	optional int32 result = 1[default = 0];	//0表示成功,-1表示玩家当前无法被抢夺,-2表示你已经有这个道具了,-3表示未知错误
+	optional uint32 target_uid = 2[default = 0];
+	optional common.award_info item_info = 4;	//抢的道具ID
+	repeated common.award_info baoxiang_show_list = 7;//第一个是抢到的
+
+	optional int32 stolen_from_player = 8[default = 0];	//是否从玩家身上偷取获得，1为真，0为假
+	optional int32 fight_result = 9[default = 0];	//0表示输了,1表示赢了但没抢到东西，2表示赢了并抢到东西
+	optional int32 extra_money_award = 10[default = 0];	//额外得到的金币
+	repeated common.one_wujiang_get_exp wujiang_exp_list = 11;	//武将经验列表
+	optional int32 remain_buy_raid_times = 12[default = 0];
+	optional int32 today_raid_times = 13[default = 0];
+	optional int32 raid_times_limit = 14[default = 0];
+}
+
+message one_raid_record_info
+{
+	optional int32 item_id = 1[default = 0];
+	optional string guild_name = 2[default = ''];
+	optional string user_name = 3[default = ''];
+	optional int32 fight_result = 4[default = 0];	//0表示输了,1对方赢了但没抢到东西，2表示对方赢了并抢到东西
+	optional int32 stolen_item_id = 5[default = 0];	//偷走的宝箱道具
+	optional uint64 video_id = 6[default = 0];
+	optional int32 time = 7[default = 0];
+	optional int32 level = 11[default = 0];	//玩家等级
+	optional int32 use_icon = 12[default = 0];
+}
+
+message req_zhenfa_raid_record_list
+{
+	
+}
+
+message rsp_zhenfa_raid_record_list
+{
+	optional int32 result = 1[default = 0];
+	repeated one_raid_record_info raid_record_list = 2;
+}
+
+//通知被抢的新记录给玩家
+message ntf_new_raid_record
+{
+	optional one_raid_record_info raid_record = 1;
+}
+
+message req_safe_time
+{
+
+}
+
+message rsp_safe_time
+{
+	optional int32 result = 1[default = 0];
+	optional int32 zhenfa_safe_time = 2[default = 0];	//阵法免战时间
+}
+
+message req_apply_safe_time
+{
+	optional int32 paid_type = 1[default = 0];	//0表示用道具，1表示用元宝
+}
+
+message rsp_apply_safe_time
+{
+	optional int32 result = 1[default = 0];
+	optional int32 paid_type = 2[default = 0];	//0表示用道具，1表示用元宝
+}
+
+message req_watch_last_video
+{
+}
+
+message rsp_watch_last_video
+{
+	optional int32 result = 1[default = 0];
+	optional bytes video_stream = 3[default = ''];	//录像内容
+}
+
+message req_buy_raid_times//购买夺宝次数请求
+{
+
+}
+
+message rsp_buy_raid_times//购买夺宝次数响应
+{
+	optional int32 result = 1[default = 0];
+	optional int32 today_raid_times = 2[default = 0];
+	optional int32 raid_times_limit = 3[default = 0];
+	optional int32 remain_buy_raid_times = 4[default = 0];
+}

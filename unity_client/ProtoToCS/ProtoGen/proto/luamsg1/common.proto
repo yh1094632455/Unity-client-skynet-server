@@ -1,0 +1,208 @@
+package common;
+
+message one_item
+{
+	optional int32 item_id = 1[default = 0];
+	optional int32 count = 2[default = 0];
+}
+
+
+//一条装备的战斗属性
+message one_attr
+{
+	optional int32 attr_type = 1[default = 6];
+	optional int32 attr_value = 2[default = 0];
+}
+
+message one_equip
+{
+	optional int32 equip_id = 1[default = 0];	//装备的配置ID
+	optional int32 level = 2[default = 0];
+	optional int32 stage = 3[default = 0];	//当前颜色
+
+	repeated one_attr attr_list= 9;
+}
+
+message one_horse
+{
+	optional int32 horse_id = 1[default = 0];
+	optional int32 horse_seq = 2[default = 0];
+	optional int32 level = 4[default = 0];
+	optional int32 exp = 5[default = 0];
+	optional int32 evolved_level = 6[default = 0];	//进化等级
+	optional int32 bind_wujiang = 7[default = 0];	//绑定的武将
+	repeated one_attr attr_list= 9;
+}
+
+//装备，道具的封装
+message one_item_wrapper
+{
+	optional int32 id = 1[default = 0];	//装备ID OR 道具ID
+	optional one_item the_item = 2;
+	optional one_equip the_equip = 3;
+}
+
+message one_random_seed
+{
+	optional int32 id = 1[default = 0];	//武将ID
+	optional uint32 seed = 2[default = 0];
+}
+
+message one_zhenfa
+{
+	optional int32 zhenfa_id = 1[default = 0];
+	optional int32 zhenfa_level = 2[default = 0];
+}
+
+message one_wujiang_get_exp
+{
+	optional int32 id = 1[default = 0];	//武将ID
+	optional int32 level = 2[default = 0];
+	optional int32 curr_exp = 3[default = 0];
+	optional int32 award_exp = 4[default = 0];	//武将得到的经验
+	optional int32 prev_level = 5[default = 0];	//之前的等级
+	optional int32 prev_exp = 6[default = 0];	//之前的经验
+}
+
+message one_dragon
+{
+	optional int32 dragon_id = 1[default = 0];
+	optional int32 level = 2[default = 0];
+	optional int32 dragon_exp = 3[default = 0];
+}
+
+//武将的简介
+message one_wujiang_brief
+{
+	optional int32 id = 1[default = 0];		//武将id
+	optional int32 level = 2[default = 0];
+	optional int32 stage = 3[default = 0];
+	optional int32 star = 4[default = 0];
+	optional int32 pos = 5[default = 0];
+}
+
+message one_raid_target
+{
+	optional uint32 uid = 1[default = 0];
+	optional int32 head_icon = 2[default =0];	//主公头像
+	optional int32 level = 3[default = 0];
+	optional string name = 4[default = ''];
+	optional int32 power = 5[default = 0];
+	optional int32 svrid = 6[default = 0];	//服务器ID
+	optional string guild_name = 7[default = ''];	//军团名称
+	optional int32 guild_level = 8[default = 0];	//军团等级
+
+	repeated one_wujiang_brief brief_list = 9;	//武将简介列表
+	repeated one_zhenfa zhenfa_list = 10;
+	optional int32 win_times = 11[default = 0];
+}
+
+message one_wujiang_skill
+{
+	optional int32 skill_id = 1[default = 0];	
+	optional int32 skill_level = 2[default = 1];
+}
+
+message one_wujiang
+{
+	optional int32 id = 1[default = 0];
+	optional int32 level = 2[default = 0];	//当前等级
+	optional uint32 exp = 3[default =0];	//当前经验
+	optional int32 stage = 4[default = 0];//当前品阶
+	optional int32 star = 5[default = 0];//当前星
+
+	optional int32 first_tongbing = 6[default = 0];//统兵
+	optional int32 first_wuli = 7[default = 0];// 武力
+	optional int32 first_zhili = 8[default = 0];//智力
+	optional int32 first_fangyu = 9[default = 0];//防御
+
+	optional int32 max_hp = 10[default = 0];	//血量上限
+	optional int32 phy_atk = 11[default = 0];	//物攻
+	optional int32 phy_def = 12[default = 0];	//物防
+	optional int32 magic_atk = 13[default = 0];	//法攻
+	optional int32 magic_def = 14[default = 0];	//法防
+	optional int32 phy_baoji = 15[default = 0];	//物理爆击
+	optional int32 magic_baoji = 16[default = 0];//法术爆击
+	optional int32 shanbi = 17[default = 0];	//闪避
+	optional int32 mingzhong = 18[default = 0];	//命中
+	optional int32 move_speed = 19[default = 0];//移动速度
+	optional int32 atk_speed = 20[default = 0];	//攻击速度
+	optional int32 hp_recover = 21[default = 0];//生命回复
+	optional int32 nuqi_recover = 22[default = 0];	//怒气回复
+	optional int32 init_nuqi = 23[default = 0];	//初始怒气
+	optional int32 power = 24[default = 0];	//战力
+
+	repeated one_wujiang_skill skill_list = 30;
+	repeated one_equip equip_list = 31;	//武将身上的装备列表
+	optional int32 buzhen_trench=32[default = 0];
+}
+
+
+//奖励列表，做成统一的结构，根据type来区分
+message award_info
+{
+	optional int32 award_type = 1[default = 0];	//奖励类型0是道具，1是武将转换成信物，2是武将
+	optional one_item award_item = 2;	//奖励的道具
+	optional one_wujiang award_wujiang = 3;	//奖励的武将
+}
+
+message one_buzhen_info
+{
+	optional int32 buzhen_type = 1[default = 0];	//0关卡，1竞技场攻击阵容，2塔防，3竞技场防守阵容
+	optional int32 wujiang_id1 = 2[default = 0];
+	optional int32 wujiang_id2 = 3[default = 0];
+	optional int32 wujiang_id3 = 4[default = 0];
+	optional int32 wujiang_id4 = 5[default = 0];
+	optional int32 wujiang_id5 = 6[default = 0];
+	optional int32 captain_id = 7[default = 0]; 
+	repeated int32 zhenfa_list = 8;	//阵法
+	optional int32 dragon_id = 9[default = 0];	//召唤兽
+	repeated int32 wujiang_alternates = 10;	//替补武将
+}
+
+message nanman_buzhen_info
+{
+	optional int32 wujiang_id1 = 2[default = 0];
+	optional int32 wujiang_id2 = 3[default = 0];
+	optional int32 wujiang_id3 = 4[default = 0];
+	optional int32 wujiang_id4 = 5[default = 0];
+	optional int32 wujiang_id5 = 6[default = 0];
+	optional int32 wujiang_id6 = 7[default = 0];
+	optional int32 captain_id = 8[default = 0]; 
+	repeated int32 zhenfa_list = 9;	//阵法
+	optional int32 dragon_id = 10[default = 0];	//召唤兽
+}
+
+message one_hire_wujiang_info
+{
+	optional uint32 hire_owner_id=1[default = 0];
+	optional int32 hire_wujiang_id=2[default = 0]; 
+	optional int32 hire_wujiang_trench=3[default =0];
+	optional int32 hire_price=4[default = 0];
+}
+
+message one_user_brief
+{
+	optional uint32 uid = 1[default = 0];
+	optional int32 use_icon = 2[default =0];	//主公头像
+	optional int32 level = 3[default = 0];
+	optional string name = 4[default = ''];
+	optional int32 power = 5[default = 0];
+	optional string guild_name = 7[default = ''];	//军团名称
+	optional int32 rank = 8[default = 0];	//玩家的排名
+	repeated one_wujiang_brief brief_list = 9;	//武将简介列表
+	repeated one_zhenfa zhenfa_list = 10;
+	optional int32 win_times = 11[default = 0];	//胜场次数
+}
+
+message hirewujiang_info
+{
+	optional int32 wujiang_id=1[default=0];
+	optional int32 level=2[default=0];
+	optional int32 stage=3[default=0];
+	optional int32 star=4[default=0];
+	optional int32 hire_price=5[default=0];
+	optional uint32 owner_id=6[default=0];
+	optional string owner_name=7[default=''];
+	optional int32 power=8[default = 0];
+}

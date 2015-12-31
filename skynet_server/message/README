@@ -1,0 +1,2 @@
+运行proto.py把.proto文件生成.pb文件
+生成的文件在proto目录下

@@ -1,0 +1,67 @@
+package db;
+
+message charged_record
+{
+	repeated int32 goods_id_list = 1;
+	optional int32 last_charge_time = 2[default = 0];	//最后一次充值时间
+}
+message User
+{
+	optional uint32 uid = 1[default = 0];
+	optional string user_name = 2[default = ''];
+	optional int32 use_icon = 3[default = 0];	//正在使用的头像
+	optional int32 sex = 4[default = 0];		//性别
+	optional int32 level = 5[default = 0];		//玩家等级
+	optional int32 exp = 6[default = 0];		//经验
+	optional int32 last_login_time = 7[default = 0];
+	optional int32 last_logout_time = 8[default = 0];//最后下线的时间
+	optional int32 last_crossday_time = 9[default = 0];	//最后一次跨天的时间
+	optional int32 vip_level = 10[default = 0];	//玩家的VIP等级
+	optional int32 pay_total = 11[default =0];	//总的付费元宝数
+	optional int32 exp_time = 12[default = 0];	//增加经验的时间，用于排行的
+	optional int32 platform_id = 13[default = 0];	//玩家对应的平台id
+	optional int32 vip_exp = 14[default = 0];
+
+	//货币类
+	optional int32 game_money = 15[default = 0];		//银两
+	optional int32 yuanbao = 16[default = 0];	//元宝
+	optional int32 intensify_point = 17[default = 0];	//强化点数
+	optional int32 costed_yuanbao = 18[default = 0];	//至今消耗过的元宝
+
+	optional int32 stamina = 20[default = 0];	//体力
+
+	optional int32 skill_point = 22[default = 0];	//当前可用的技能用
+	optional int32 last_add_skill_time = 23[default = 0];	//最后一次加技能的时间点
+
+	optional int32 jianghun = 25[default = 0];	//将魂
+	optional int32 doubi = 26[default = 0];	//斗币
+	optional int32 toc = 27[default = 0];	//边关币
+	optional int32 guild_coin = 28[default = 0];	//军团币
+
+	optional int32 guild_id = 30[default = 0];	//军团id
+	optional int32 create_time = 31[default = 0];	//用户的创建时间
+
+	//日常标记，可用于做一日常记录,第0个bit是中午吃饭,第1个bit是晚上吃饭
+	optional uint32 daily_flag = 32[default = 0];
+
+	//永久保持的标记,第0个BIT表示抽过低级将，1个BIT表示抽过高级将,2表示购买过基金,3表示购买过黑市商人永久开启
+	optional uint32 permanent_flag = 33[default = 0];
+
+	optional int32 lottery_general_count = 34[default = 0];		//今天抽常规将的次数
+	optional int32 lottery_general_time = 35[default = 0];	//上一次抽常规将的时间
+	optional int32 lottery_senior_time = 36[default = 0];	//上一次抽高级将的时间
+
+	////月卡相关
+	optional int32 yueka_expire_time = 37[default = 0];	//月卡过期时间
+	optional int32 last_yueka_award_time = 38[default = 0];	//最后一次领月卡奖励的时间
+	optional uint32 guide_flags = 39[default = 0];	//新手指引
+	optional uint32 guide_flags_ex = 40[default = 0];	//新手指引ex
+	optional int32 horsepoint = 42[default = 0];	//坐骑饲料
+	optional int32 last_stamina_recover_time = 43[default = 0];	//上一次体力恢复的时间
+	optional string account = 44[default = ''];
+
+	optional charged_record charged_record_info = 45;
+	optional int32 wushuang_yueka_expire_time = 46[default = 0];	//无双月卡过期时间
+	optional int32 last_wushuang_yueka_award_time = 47[default = 0];	//无双最后一次领月卡奖励的时间
+	optional uint32 jijin_flags = 48[default = 0];	//基金的领取标记
+}

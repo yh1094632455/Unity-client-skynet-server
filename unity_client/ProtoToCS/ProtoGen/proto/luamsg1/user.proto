@@ -1,0 +1,251 @@
+package user;
+
+message req_user_info
+{
+
+}
+message rsp_user_info
+{
+	optional int32 result = 1[default = 0];
+	optional string name = 2[default = ''];
+	optional int32 level = 3[default = 0];
+	optional int32 sex = 4[default = 0];	//0是男，1是女
+	optional int32 game_money = 5[default = 0];
+	optional int32 yuanbao = 6[default = 0];
+	optional int32 use_icon = 7[default =0];//玩家头像
+	optional int32 exp = 8[default = 0];	//玩家经验
+	optional int32 stamina = 9[default = 0];	//体力
+	optional int32 stamina_limit = 10[default = 0];	//体力上限
+	optional int32 skill_point = 13[default = 0];	//技能点
+	optional int32 next_add_skill_point_time = 14[default = 0];	//下一次增加的时间，倒计时
+	optional int32 skill_point_limit = 15[default = 0];	//技能点上限
+	optional int32 today_buy_skill_count = 16[default = 0];
+	optional int32 vip_level = 17[default = 0];
+	optional int32 intensify_point = 18[default = 0];	//强化点数
+	optional int32 vip_exp = 19[default = 0];
+	optional int32 game_time = 25[default = 0];	//服务器游戏时间，秒
+	optional int32 jianghun = 26[default = 0];	//玩家的将魂
+	optional int32 doubi = 27[default = 0];	//斗币
+	optional int32 toc = 28[default = 0];	//边关币
+	optional uint32 gid = 29[default = 0];	//军团ID
+	optional int32 today_buy_stamina_count = 30[default = 0];
+	optional string guild_name = 32[default = ''];//军团名字
+	optional int32 change_name_price = 33[default = 500];	//改名需要的元宝
+	optional uint32 guide_flags = 34[default = 0];//新手指引的标记
+	optional int32 horsepoint = 35[default = 0];	//坐骑口粮
+	optional uint32 uid = 36[default =0];
+	optional int32 remain_world_speak_times = 37[default = 0];
+	optional uint32 guide_flags_ex = 38[default = 0];//新手指引的标记
+	optional int32 guild_coin = 39[default = 0];
+}
+
+message req_all_user_data
+{
+	optional string app_version = 1[default = ''];
+}
+
+//服务器不返回这条协议，直接返回多个模块数据的回包
+message rsp_all_user_data
+{
+	optional int32 result = 1[default = 0];
+}
+
+message req_heartbeat
+{
+	optional int32 last_mail_time = 1[default = 0];
+	optional int32 last_heart_time = 2[default = 0];
+}
+
+message rsp_heartbeat
+{
+	optional int32 result = 1[default = 0];
+	optional int32 game_time = 2[default = 0];	//服务器游戏时间，秒
+
+	optional int32 stamina = 5[default = 0];	//当前的体力
+	optional int32 hongdian_flag = 6[default = 0];//红点标记
+	optional uint32 module_switch = 43[default = 0];	//模块开关
+}
+
+message ntf_money_chg
+{
+	optional int32 game_money = 1[default = 0];	//当前的银两
+	optional int32 yuanbao = 2[default = 0];	//当前的元宝
+	optional int32 reason = 3[default = 0];
+}
+
+//通知玩家属性变化
+message ntf_user_info_chg
+{
+	optional int32 exp = 1[default = 0];	//玩家当前的经验
+	optional int32 stamina = 2[default = 0];	//当前的体力
+
+	optional int32 skill_point = 4[default = 0];	//技能点
+	optional int32 next_add_skill_point_time = 5[default = 0];
+	optional int32 skill_point_limit = 6[default = 0];	//技能点上限
+
+	optional int32 jianghun = 7[default = 0];//玩家的将魂
+	optional int32 doubi = 8 [default = 0];	//斗币
+	optional int32 toc = 9 [default = 0];	//边关币
+	optional int32 guild_coin = 10 [default = 0];
+}
+
+//通知玩家当前强化点数变化
+message ntf_intensify_point_chg
+{
+	optional int32 intensify_point = 1[default = 0];	//当前强化点数
+}
+
+//通知玩家当前口粮数变化
+message ntf_horsepoint_chg
+{
+	optional int32 horsepoint = 1[default = 0];	//当前口粮数
+}
+
+//通知玩家升级
+message ntf_user_levelup
+{
+	optional int32 level = 1[default = 0];	//当前的等级
+	optional int32 exp = 2[default = 0];	//当前的经验
+	optional int32 stamina = 3[default = 0];	//当前体力
+	optional int32 stamina_limit = 4[default = 0];	//当前体力
+}
+
+//
+message ntf_user_vip_level_chg
+{
+	optional int32 vip_level = 1[default = 0];
+	optional int32 vip_exp = 2[default = 0];
+}
+
+//购买体力
+message req_buy_stamina
+{
+
+}
+message rsp_buy_stamina
+{
+	optional int32 result = 1[default = 0];
+	optional int32 get_stamina = 2[default = 0];//购买了多少
+	optional int32 today_buy_stamina_count = 3[default = 0];
+}
+
+message req_buy_skill_point
+{
+
+}
+
+message rsp_buy_skill_point
+{
+	optional int32 result = 1[default = 0];
+	optional int32 today_buy_skill_point_count = 2[default = 0];
+}
+
+message req_create_user
+{
+	optional int32 sex = 1[default = 0];	//0是男，1是女
+	optional string name = 2[default = ''];	//玩家名字
+}
+
+message rsp_create_user
+{
+	optional int32 result = 1[default = 0];	//0成功，-1是名字有敏感词，-2是名字已经存在
+	optional int32 sex = 2[default = 0];	//0是男，1是女
+	optional string name = 3[default = ''];	//玩家名字
+	optional int32 use_icon = 4[default = 0];
+}
+
+message req_random_name
+{
+	optional int32 sex = 1[default = 0];	//0是男，1是女
+}
+message rsp_random_name
+{
+	optional int32 result = 1[default = 0];
+	optional string name = 2[default = ''];
+}
+
+//改名
+message req_change_name
+{
+	optional string name = 2[default = ''];	//新名字
+}
+
+message rsp_change_name
+{
+	optional int32 result = 1[default = 0];	//0成功，-1是名字有敏感词，-2是名字已经存在
+	optional string name = 2[default = ''];	//新名字
+}
+
+
+//请求可用头像列表
+message req_head_icon_list
+{
+
+}
+
+message rsp_head_icon_list
+{
+	optional int32 result = 1[default = 0];
+	repeated int32 icon_list = 2;	//可用的头像列表
+}
+
+//使用头像
+message req_use_head_icon
+{
+	optional int32 use_icon = 1[default = 0];//使用的头像id
+}
+
+message rsp_use_head_icon
+{
+	optional int32 result = 1[default = 0];
+	optional int32 use_icon = 2[default = 0];//使用的头像id
+}
+
+message req_set_guide_flags
+{
+	optional uint32 flags = 1[default = 0];
+}
+
+message rsp_set_guide_flags
+{
+	optional int32 result = 1[default = 0];
+	optional uint32 curr_flags = 2[default = 0];
+}
+
+message ntf_guide_flags_chg
+{
+	optional uint32 guide_flags = 1[default = 0];	//新手指引的标志变化
+	optional uint32 guide_flags_ex = 2[default = 0];
+}
+
+message req_query_recovering_stamina
+{
+}
+
+message rsp_query_recovering_stamina
+{
+	optional int32 result = 1[default = 0];
+	optional int32 stamina_recovering_time = 2[default = 0];	//下一次体力恢复时间
+	optional int32 stamina_all_recovering_time = 3[default = 0];	//下一次体力全恢复满的时间
+}
+
+message req_fightwar_panel
+{
+
+}
+message rsp_fightwar_panel
+{
+	optional int32 result = 1[default = 0];
+	optional int32 remain_liezhuan_times = 2[default = 0];
+	optional int32 remain_toc_times = 3[default = 0];
+	optional int32 fight_toc = 4[default = 0];//0表示正在挑战,1表示不在挑战
+	optional int32 remain_mojin_times = 5[default = 0];
+	optional int32 remain_saima_times = 6[default = 0];
+	optional int32 if_start_saima = 7[default = 0];
+	optional int32 boss_index = 8[default = 0];
+	optional int32 remain_camps_times = 9[default = 0];
+}
+message ntf_server_notice
+{
+	optional string server_notice = 1[default = ''];
+}

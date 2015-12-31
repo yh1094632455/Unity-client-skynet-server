@@ -1,0 +1,6 @@
+package ui;
+
+message ntf_show_errcode
+{
+	optional int32 result = 1[default = 0];
+}

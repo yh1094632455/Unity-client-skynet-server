@@ -1,0 +1,80 @@
+package lottery;
+
+import 'common.proto';
+
+//查询点将的信息
+message req_lottery_info
+{
+	
+}
+message rsp_lottery_info
+{
+	optional int32 result = 1[default = 0];
+	optional int32 free_limit_count = 2[default = 5];	//剩余免费常规次数上限
+	optional int32 next_free_general_time = 3[default = 0];	//下一次免费的常规点将时间戳
+	optional int32 next_free_senior_time = 4[default = 0];	//下一次可用的高级点将时间戳
+	optional int32 free_left_count = 5[default = 0];	//剩余的免费常规次数
+}
+
+//常规点将
+message req_general_lottery
+{
+	optional int32 is_free = 1[default = 0];	//是否免费点将，0是付费，1是免费
+}
+
+message rsp_general_lottery
+{
+	optional int32 result = 1[default = 0];
+	optional common.award_info award_info = 2;
+	
+	optional int32 free_left_count = 3[default = 0];	//剩余的免费常规次数
+	optional int32 free_limit_count = 4[default = 5];	//剩余免费常规次数上限
+	optional int32 next_free_general_time = 5[default = 0];	//下一次免费的常规点将时间戳
+	optional int32 cost_type = 6[default = 0];	//消耗类型，0是消耗银两，1是消耗次数，
+	optional common.award_info fixed_award = 7;
+}
+
+//高级点将
+message req_senior_lottery
+{
+	optional int32 is_free = 1[default = 0];	//是否免费点将，0是付费，1是免费
+}
+
+message rsp_senior_lottery
+{
+	optional int32 result = 1[default = 0];
+	optional common.award_info award_info = 2;
+	optional int32 next_free_senior_time = 3[default = 0];	//下一次可用的高级点将时间戳
+	optional int32 cost_type = 4[default = 0];	//消耗类型，0是消耗元宝，1是消耗次数，
+	optional common.award_info fixed_award = 5;
+}
+
+//高级十连抽
+message req_ten_lottery
+{
+	optional int32 is_free = 1[default = 0];	//是否免费点将，0是付费，1是免费
+}
+
+message rsp_ten_lottery
+{
+	optional int32 result = 1[default = 0];
+	repeated common.award_info award_info_list = 2;
+	optional common.award_info fixed_award = 3;
+	optional int32 next_free_senior_time = 4[default = 0];	//下一次可用的高级点将时间戳
+}
+
+//普通十连抽
+message req_general_ten_lottery
+{
+	optional int32 is_free = 1[default = 0];	//是否免费点将，0是付费，1是免费
+}
+
+message rsp_general_ten_lottery
+{
+	optional int32 result = 1[default = 0];
+	repeated common.award_info award_info_list = 2;
+	optional common.award_info fixed_award = 3;
+	optional int32 free_left_count = 4[default = 0];	//剩余的免费常规次数
+	optional int32 free_limit_count = 5[default = 5];	//剩余免费常规次数上限 
+	optional int32 next_free_general_time = 6[default = 0];	//下一次免费的常规点将时间戳
+}

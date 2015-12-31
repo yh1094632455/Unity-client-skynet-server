@@ -1,0 +1,318 @@
+package shop;
+
+message req_sell_item
+{
+	optional int32 item_id = 1[default = 0];
+	optional int32 count = 2[default = 0];
+}
+
+message rsp_sell_item
+{
+	optional int32 result = 1[default = 0];
+}
+
+message shop_goods
+{
+	optional int32 item_id = 1[default = 0];	//出售的道具ID
+	optional int32 count = 2[default = 0];	//出售的道具数量
+	optional int32 currency = 3[default = 0];	//货币类型，0为金钱，1为元宝
+	optional int32 price = 4[default = 0];	//对应的价格
+	optional int32 sold_out = 5[default = 0];	//是否售罄,0是否，1是售罄
+	optional int32 goods_rebate = 6[default = 0];//打折力度
+}
+
+message req_query_shop_list
+{
+
+}
+
+message rsp_query_shop_list
+{
+	optional int32 result = 1[default = 0];
+	repeated shop_goods shop_goods_list = 2;	//商店列表
+	repeated shop_goods qshop_goods_list = 3;			//奇珍异宝可购买商品
+	optional int32 today_refresh_count = 4[default = 0];	//今天的刷新次数
+	optional int32 is_refresh_goods = 5[default = 0];//0为未刷新，1为已刷新
+}
+
+//请求下一次刷新的时间
+message req_next_refresh_time
+{
+
+}
+
+message rsp_next_refresh_time
+{
+	message refresh_info
+	{
+		optional int32 type = 1[default = 1];	//1：商店，2：竞技场商店，3：军团商店
+		optional int32 next_refresh_time = 2[default = 0];	//下一次的刷新时间
+		optional int32 red_spot = 3[default = 0]; //1表示显示小红点，0表示不显示
+	}
+
+	optional int32 result = 1[default = 0];
+	repeated refresh_info refresh_info_list = 2;
+}
+
+//普通商店购买
+message req_buy_from_shop
+{
+	optional int32 goods_index = 1[default = 0];	//购买的道具的位置索引，0-5
+}
+
+message rsp_buy_from_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 item_id = 2[default = 0];
+	optional int32 count = 3[default = 0];
+	optional int32 goods_index = 4[default = 0];
+}
+
+//奇珍异宝购买
+message req_buy_from_qshop
+{
+	optional int32 goods_index = 1[default = 0];	//购买的道具的位置索引，0-5
+}
+
+message rsp_buy_from_qshop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 item_id = 2[default = 0];
+	optional int32 count =3 [default = 0];
+	optional int32 goods_index = 4[default = 0];
+}
+
+//手动刷新商店
+message req_refresh_shop
+{
+
+}
+
+message rsp_refresh_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 refresh = 2[default = 1];	//重新刷新界面 
+}
+
+//开格子
+message req_open_qshop_slot
+{
+}
+
+message rsp_open_qshop_slot
+{
+	optional int32 result = 1[default = 0];
+	optional int32 curr_slot_count = 2[default = 0];	//当前的格子数
+	optional shop_goods shop_goods = 3;//刷出的装备
+}
+
+
+//特殊商店商品数据结构
+message special_shop_goods
+{
+	optional int32 item_id = 1[default = 0];	//出售的道具ID
+	optional int32 count = 2[default = 0];	//出售的道具数量
+	optional int32 price = 4[default = 0];	//对应的价格
+	optional int32 sold_out = 5[default = 0];	//是否售罄,0是否，1是售罄
+}
+
+//竞技场商店
+message req_arena_shop_list
+{
+
+}
+
+message rsp_arena_shop_list
+{
+	optional int32 result = 1[default = 0];
+	optional int32 today_refresh_count = 2[default = 0];	//今天的刷新次数
+	repeated special_shop_goods shop_goods_list = 3;	//商店列表
+	optional int32 is_refresh_goods = 4[default = 0];//0为未刷新，1为已刷新
+}
+
+message req_buy_from_arena_shop
+{
+	optional int32 goods_index = 1[default = 0];	//购买的道具的位置索引，0-5
+}
+
+message rsp_buy_from_arena_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 item_id = 2[default = 0];
+	optional int32 count =3 [default = 0];
+	optional int32 goods_index = 4[default = 0];
+}
+
+//手动刷新竞技场商店
+message req_refresh_arena_shop
+{
+
+}
+
+message rsp_refresh_arena_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 refresh = 2[default = 1];	//重新刷新界面 
+}
+
+
+//将魂商店
+message req_jianghun_shop_list
+{
+
+}
+
+message rsp_jianghun_shop_list
+{
+	optional int32 result = 1[default = 0];
+	optional int32 today_refresh_count = 2[default = 0];	//今天的刷新次数
+	repeated special_shop_goods shop_goods_list = 3;	//商店列表
+	optional int32 is_refresh_goods = 4[default = 0];//0为未刷新，1为已刷新
+}
+
+message req_buy_from_jianghun_shop
+{
+	optional int32 goods_index = 1[default = 0];	//购买的道具的位置索引，0-5
+}
+
+message rsp_buy_from_jianghun_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 item_id = 2[default = 0];
+	optional int32 count =3 [default = 0];
+	optional int32 goods_index = 4[default = 0];
+}
+
+message req_refresh_jianghun_shop
+{
+
+}
+
+message rsp_refresh_jianghun_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 refresh = 2[default = 1];	//重新刷新界面 
+}
+
+//过关斩将商店
+message req_toc_shop_list
+{
+
+}
+
+message rsp_toc_shop_list
+{
+	optional int32 result = 1[default = 0];
+	optional int32 today_refresh_count = 2[default = 0];	//今天的刷新次数
+	repeated special_shop_goods shop_goods_list = 3;	//商店列表
+	optional int32 is_refresh_goods = 4[default = 0];//0为未刷新，1为已刷新
+}
+
+message req_buy_from_toc_shop
+{
+	optional int32 goods_index = 1[default = 0];	//购买的道具的位置索引，0-5
+}
+
+message rsp_buy_from_toc_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 goods_index = 2[default = 0];
+	optional int32 item_id = 3[default = 0];
+	optional int32 count = 4[default = 0];
+}
+
+//手动刷新竞技场商店
+message req_refresh_toc_shop
+{
+
+}
+
+message rsp_refresh_toc_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 refresh = 2[default = 1];	//重新刷新界面 
+}
+//军团商店
+message req_guild_shop_list
+{
+
+}
+
+message rsp_guild_shop_list
+{
+	optional int32 result = 1[default = 0];
+	optional int32 today_refresh_count = 2[default = 0];	//今天的刷新次数
+	repeated special_shop_goods shop_goods_list = 3;	//商店列表
+	optional int32 is_refresh_goods = 4[default = 0];//0为未刷新，1为已刷新
+}
+
+message req_buy_from_guild_shop
+{
+	optional int32 goods_index = 1[default = 0];	//购买的道具的位置索引，0-5
+}
+
+message rsp_buy_from_guild_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 goods_index = 2[default = 0];
+	optional int32 item_id = 3[default = 0];
+	optional int32 count = 4[default = 0];
+}
+message req_refresh_guild_shop
+{
+
+}
+
+message rsp_refresh_guild_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 refresh = 2[default = 1];	//重新刷新界面 
+}
+
+//黑市商店
+message req_blackmarket_shop_list
+{
+
+}
+
+message rsp_blackmarket_shop_list
+{
+	optional int32 result = 1[default = 0];
+	optional int32 today_refresh_count = 2[default = 0];	//今天的刷新次数
+	repeated shop_goods shop_goods_list = 3;	//商店列表
+}
+
+message req_buy_from_blackmarket_shop
+{
+	optional int32 goods_index = 1[default = 0];	//购买的道具的位置索引，0-5
+}
+
+message rsp_buy_from_blackmarket_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 goods_index = 2[default = 0];
+	optional int32 item_id = 3[default = 0];
+	optional int32 count = 4[default = 0];
+}
+message req_refresh_blackmarket_shop
+{
+
+}
+message rsp_refresh_blackmarket_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 refresh = 2[default = 1];	//重新刷新界面 
+}
+message req_buy_permanent_blackmarket
+{
+	
+}
+message rsp_buy_permanent_blackmarket
+{
+	optional int32 result = 1[default = 0];
+}
+message ntf_blackmarket_shop_show 
+{
+	optional int32 blackmarket_show_time = 1[default = 0];//-1为永久显示黑市，大于0为剩余出现黑市的时间，0为不出现黑市
+	optional int32 is_first_show = 2[default = 0];//0为非第一次出现，1第一次出现
+}

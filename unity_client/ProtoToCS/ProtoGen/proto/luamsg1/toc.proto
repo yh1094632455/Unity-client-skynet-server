@@ -1,0 +1,168 @@
+package toc;
+
+import 'common.proto';
+
+message one_toc_wujiang_info
+{
+	optional int32 id = 1[default = 0];	//武将id
+	optional int32 curr_hp = 2[default = 0];	//武将当前的hp
+	optional int32 curr_nuqi = 3[default = 0];
+	optional int32 param1 = 4[default = 0];
+	optional int32 param2 = 5[default = 0];
+	optional int32 param3 = 6[default = 0];
+	optional int32 max_hp = 7[default = 0];
+}
+
+message one_toc_rival
+{
+	optional uint32 uid = 1[default = 0];
+	optional int32 level = 2[default = 0];
+	optional string name = 3[default = ''];
+	optional int32 power = 5[default = 0];
+
+	optional int32 use_icon = 6[default = 0];	//正在使用的头像
+	optional int32 rank = 7[default = 0];	//排名
+	optional string guild_name = 8[default = ''];	//公会名字
+
+	repeated common.one_wujiang_brief brief_list = 9;	//武将简介列表
+	repeated one_toc_wujiang_info wujiang_status_list = 10;
+	optional int32 win_times = 11[default = 0];	//胜场次数
+
+	repeated common.one_zhenfa zhenfa_list = 15;
+	optional common.one_dragon dragon_info = 16;	//防守的召唤兽
+
+	repeated int32 used_dragon_list = 17;	//已经使用过的召唤兽
+	repeated int32 group_skill_list = 18;	//组合计使用记录
+
+	optional int32 die = 19[default = 0];	//0表示还未死，1表示已经死了
+}
+
+//请求所有的数据
+message req_info
+{
+
+}
+
+message rsp_info
+{
+	optional int32 result = 1[default = 0];
+
+	optional int32 curr_round = 2[default = 0];	//当前第几波
+	repeated one_toc_rival rival_list = 3;	//敌人列表
+	optional uint32 rival_captain_uid = 4[default = 0];
+	optional int32 taken_award = 5[default = 0];	//是否领过奖励,0表示否，1表示已经领过
+
+	//个人的状态
+	repeated one_toc_wujiang_info used_wujiang_list = 10;//自己上阵过的武将列表
+	repeated int32 used_dragon_list = 11;	//已经使用过的召唤兽
+	repeated int32 group_skill_list = 12;	//组合计使用记录
+	//后面还有佣兵信息
+	optional one_toc_wujiang_info hire_wujiang_status = 13;//雇佣武将的状态信息
+	optional int32 hire_wujiang_exist = 14[default = 0];//1表示有雇佣武将
+	optional int32 hire_wujiang_trench = 15[default = 0];//表示武将没有上阵（默认槽位为0）
+	optional common.hirewujiang_info wujiang_show_info=16;//雇佣武将展示面板信息
+	optional int32 left_fight_times = 17[default = 0];//剩余次数
+}
+
+
+message req_enter_fight
+{
+	optional uint32 uid = 1[default = 0];	//敌人的id
+	optional uint32 copy_seq = 2[default = 0];
+	optional common.one_buzhen_info buzhen_info = 3;
+	optional common.one_hire_wujiang_info hire_wujiang_info = 4;
+}
+
+message rsp_enter_fight
+{
+	optional int32 result = 1[default = 0];//请求的结果
+	repeated one_toc_wujiang_info rival_wujiang_status_list = 2;
+	repeated int32 rival_pos = 3;	//对手武将的位置，直接按顺序来
+	repeated common.one_random_seed rival_seed_list = 4;
+	optional uint32 seed = 5[default = 0];	//自己个人的随机种子
+	optional string check_token = 6[default = ''];
+	optional uint32 copy_seq = 7[default = 0];
+	repeated common.one_wujiang wujiang_info_list=8;//自己上阵武将的战斗属性（包括雇佣的武将）
+	repeated one_toc_wujiang_info fight_wujiang_status_list = 9;//自己的上阵武将列表
+	optional one_toc_wujiang_info hire_wujiang_status=10;//雇佣武将的状态信息
+	optional int32 hire_wujiang_trench=11[default = 0];//雇佣武将上阵槽位
+	repeated common.one_wujiang wujiang_list = 12;	//敌人的武将
+}
+
+message req_finish_fight
+{
+	optional uint32 uid = 1[default = 0];
+	optional int32 win = 2[default = 0];
+
+	repeated one_toc_wujiang_info rival_wujiang_status_list = 3;//敌人的武将状态
+	optional int32 rival_used_dragon_id = 4;	//敌人已经使用过的召唤兽
+	repeated int32 rival_group_skill_list = 5;	//使用的组合技
+
+	repeated one_toc_wujiang_info self_wujiang_status_list = 10;//玩家自己的武将状态
+	optional int32 self_used_dragon_id = 11[default = 0];	//自己已经使用过的召唤兽
+	repeated int32 self_group_skill_list = 12;	//自己使用的组合技
+	optional uint32 copy_seq = 14[default = 0];
+	optional one_toc_wujiang_info hire_wujiang_status=15;//雇佣武将的状态信息
+}
+
+message rsp_finish_fight
+{
+	optional int32 result = 1[default = 0];
+	optional int32 award_toc = 2[default = 0];	//奖励的边关币
+
+	optional uint32 uid = 3[default = 0];	//敌人的uid
+	optional int32 die = 4[default = 0];	//是否已经挂了
+	//个人的状态
+	repeated one_toc_wujiang_info used_wujiang_list = 10;//已经使用过的武将列表
+	repeated int32 used_dragon_list = 11;	//已经使用过的召唤兽
+	optional int32 win = 15[default = 0];
+	optional uint32 copy_seq = 16[default = 0];
+}
+
+message req_recover_hp
+{
+	optional one_toc_wujiang_info wujiang_info = 1;//武将的状态信息
+	optional int32 if_hire=2[default = 0];//1为雇佣武将
+}
+
+message rsp_recover_hp
+{
+	optional int32 result = 1[default = 0];
+	optional one_toc_wujiang_info wujiang_info = 2;
+}
+
+//重置过关斩将数据
+message req_reset
+{
+}
+
+message rsp_reset
+{
+	optional int32 result = 1[default = 0];
+}
+
+message req_take_baoxiang
+{
+}
+
+message rsp_take_baoxiang
+{
+	optional int32 result = 1[default = 0];	//-2敌人还未打完
+	repeated common.award_info award_list = 2;
+
+	optional int32 curr_round = 3[default = 0];	//当前第几波
+	repeated one_toc_rival rival_list = 4;	//敌人列表
+	optional uint32 rival_captain_uid = 5[default = 0];
+}
+
+message req_start
+{
+}
+
+message rsp_start
+{
+	optional int32 result = 1[default = 0];
+	optional int32 curr_round = 3[default = 0];	//当前第几波
+	repeated one_toc_rival rival_list = 4;	//敌人列表
+	optional uint32 rival_captain_uid = 5[default = 0];
+}

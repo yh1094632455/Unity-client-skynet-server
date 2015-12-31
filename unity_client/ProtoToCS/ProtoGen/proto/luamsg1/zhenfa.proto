@@ -1,0 +1,48 @@
+package zhenfa;
+
+message one_zhenfa
+{
+	optional int32 zhenfa_id = 1[default = 0];
+	optional int32 level = 2[default = 0];
+	optional int32 exp = 3[default = 0];
+}
+
+message req_zhenfa_list
+{
+
+}
+
+message rsp_zhenfa_list
+{
+	optional int32 result = 1[default = 0];
+	repeated one_zhenfa zhenfa_list = 2;
+}
+
+message req_improve
+{
+	optional int32 zhenfa_id = 1[default = 0];
+}
+
+message rsp_improve
+{
+	optional int32 result = 1[default = 0];
+	optional int32 zhenfa_id = 2[default = 0];
+	optional int32 is_new = 3[default = 0];	//是否是新激活的
+	optional int32 curr_level = 4[default = 0];
+	optional int32 old_level = 5[default = 0];
+}
+
+message ntf_zhenfa_chg
+{
+	optional one_zhenfa zhenfa_info = 1;
+}
+
+message req_open_zhenfa
+{
+}
+
+message rsp_open_zhenfa
+{
+	optional int32 result = 1[default = 0];
+	optional int32 zhenfa_count = 2[default = 0];	// 阵法的数量
+}

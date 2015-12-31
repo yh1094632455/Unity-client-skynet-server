@@ -1,0 +1,57 @@
+package liezhuan;
+
+import "common.proto";
+
+message req_info
+{
+
+}
+
+message rsp_info
+{
+	message one_record
+	{
+		optional int32 country = 1[default = 0];
+		optional int32 today_left_times = 2[default = 0];	//今天可打的次数
+	}
+
+	optional int32 result = 1[default = 0];
+	repeated one_record today_record_list = 2;	//今天的记录列表
+}
+
+message req_enter_liezhuan
+{
+	optional int32 copy_id = 1[default = 0];	//进入副本
+	optional common.one_buzhen_info buzhen_info = 3;
+	optional common.one_hire_wujiang_info hire_wujiang_info = 4;
+}
+
+message rsp_enter_liezhuan
+{
+	optional int32 result = 1[default = 0];	//-1失败
+	repeated common.one_item drop_list = 2;	//掉落列表
+	optional uint32 copy_seq = 5[default = 0];
+	optional int32 copy_id = 6[default = 0];
+	repeated common.one_wujiang wujiang_info_list=7;
+	optional uint32 seed = 8[default = 0];
+}
+
+message req_finish_liezhuan
+{
+	optional int32 copy_id = 1[default = 0];	
+	optional uint32 copy_seq = 2[default = 0];
+	optional int32 take_time = 4[default = 0];	//通关花费的时间
+	optional int32 finish_result = 5[default = 0];	//结果，0通关，1不通关
+}
+
+message rsp_finish_liezhuan
+{
+	optional int32 result = 1[default = 0];//-1异常
+	optional int32 copy_id = 2[default = 0];	
+	optional uint32 copy_seq = 3[default = 0];
+	optional int32 finish_result = 4[default = 0];	//战斗结果
+	
+	repeated common.award_info drop_list = 7;	//掉落列表
+	repeated common.one_wujiang_get_exp wujiang_exp_list = 8;	//武将经验列表
+	optional int32 total_exp = 9[default = 0]; 
+}

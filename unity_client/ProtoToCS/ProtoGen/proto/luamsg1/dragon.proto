@@ -1,0 +1,31 @@
+package dragon;
+
+import 'common.proto';
+
+message req_dragon_list
+{
+
+}
+
+message rsp_dragon_list
+{
+	optional int32 result = 1[default = 0];
+	repeated common.one_dragon dragon_list = 2;
+}
+
+message req_improve_dragon
+{
+	optional int32 dragon_id = 1[default = 0];
+	repeated common.one_item item_list = 2;
+}
+
+message rsp_improve_dragon
+{
+	optional int32 result = 1[default = 0];
+}
+
+message ntf_dragon_chg
+{
+	optional common.one_dragon dragon_info = 1;
+}
+

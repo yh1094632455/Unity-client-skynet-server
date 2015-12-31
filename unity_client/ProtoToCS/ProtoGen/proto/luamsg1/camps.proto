@@ -1,0 +1,114 @@
+package camps;
+
+import "common.proto";
+
+//请求基本信息
+message req_info
+{
+}
+
+message rsp_info
+{
+	optional int32 result = 1[default = 0];
+	optional int32 curr_pass_floor = 2[default = 0];//当前通关进度
+	optional int32 sweep_flag = 3[default = 0];//值为1时能扫荡
+	optional int32 sweep_floor = 4[default = 0];//能扫荡到第几层
+	optional int32 left_times = 5[default = 0];//剩余挑战次数
+	optional uint32 camps_passed_uid = 6[default = 0];
+	optional string camps_passed_name = 7[default = ''];
+	optional int32 camps_passed_level = 8[default = 0];
+}
+
+//更新变化
+message ntf_campinfo_chg
+{
+	optional int32 curr_pass_floor = 1[default = 0];//当前通关进度
+	optional int32 sweep_flag = 2[default = 0];//值为1时能扫荡
+	optional int32 sweep_floor = 3[default = 0];//能扫荡到第几层
+	optional int32 left_times = 4[default = 0];//剩余挑战次数
+	optional uint32 camps_passed_uid = 5[default = 0];
+	optional string camps_passed_name = 6[default = ''];
+	optional int32 camps_passed_level = 7[default = 0];
+}
+
+//请求进入副本
+message req_enter_camps
+{
+	optional int32 copy_id = 1[default = 0];	
+	optional common.one_buzhen_info buzhen_info = 2; //布阵信息
+	optional common.one_hire_wujiang_info hire_wujiang_info = 3;
+}
+
+message rsp_enter_camps
+{
+	optional int32 result = 1[default = 0];	//-1次数不够，-2体力不够 
+	repeated common.one_item drop_list = 2;	//掉落列表
+	optional int32 copy_id = 3[default = 0];
+	repeated common.one_wujiang wujiang_info_list = 4;     //主力武将
+	repeated common.one_wujiang alternates_info_list = 5;  //替补武将 
+	optional uint32 seed = 6[default = 0];	//个人的随机种子
+}
+
+//报告副本通关
+message req_finish_camps
+{
+	optional int32 floor = 1[default = 0]; //1-5
+	optional int32 copy_id = 2[default = 0]; //副本id
+	optional int32 take_time = 3[default = 0]; //通关花费的时间
+	optional int32 finish_result = 4[default = 0]; //结果，0通关，1不通关
+}
+
+message rsp_finish_camps
+{
+	optional int32 result = 1[default = 0]; //-1异常
+	optional int32 copy_id = 2[default = 0]; //副本id
+	optional int32 floor = 3[default = 0];
+	optional int32 finish_result = 4[default = 0]; //战斗结果
+	repeated common.award_info award_list = 5; //奖励列表
+	repeated common.award_info drop_list = 6; //掉落列表
+}
+
+//扫荡
+message req_sweep_camps
+{
+	optional int32 copy_id = 1[default = 0]; //扫荡到哪个副本
+}
+
+message rsp_sweep_camps
+{
+	optional int32 result = 1[default = 0];
+	message one_sweep_award
+	{
+		optional int32 copy_id = 3[default = 0]; //扫荡到哪个副本
+		repeated common.award_info drop_list = 4;	//掉落列表
+	}
+	repeated one_sweep_award award_list = 2;
+}
+
+//首次通关阵容
+message req_passed_defend_info
+{
+	optional int32 copy_id = 1[default = 0];
+}
+
+message rsp_passed_defend_info
+{
+	message one_defend_wujiang_info 
+	{
+		optional int32 id = 1[default = 0];
+		optional int32 level = 2[default = 0];	//当前等级
+		optional int32 stage = 4[default = 0];//当前品阶
+		optional int32 star = 6[default = 0];//当前星
+		optional int32 pos = 7[default = 0];
+	}
+	optional int32 result = 1[default = 0];	//-1没有这个玩家的防守信息
+	repeated one_defend_wujiang_info def_wujiang_list = 2;//主力武将
+	repeated one_defend_wujiang_info alternates_wujiang_list = 3;//替补武将
+	optional uint32 uid = 4[default = 0];
+	optional string name = 5[default = ''];
+	optional int32 use_icon = 6[default = 0];
+	optional int32 level = 7[default = 0];
+	optional string guild_name = 8[default = ''];
+	optional int32 power = 9[default = 0];
+	optional int32 hire_wujiang_trench = 10[default = 0];
+}

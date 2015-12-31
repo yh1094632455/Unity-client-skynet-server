@@ -1,0 +1,104 @@
+package act;
+
+import "common.proto";
+
+message one_act_record
+{
+	message one_act_award
+	{
+		optional int32 item_id = 1[default = 0];
+		optional int32 count = 2[default = 0];
+	}
+
+	message one_act_tag
+	{
+		optional string tag_name = 1[default = ''];	//标签名
+		optional string progress = 2[default = '']; //完成进度
+		repeated one_act_award award_list = 3;	//奖励列表
+		optional int32 price = 4[default = 0];	//购买价格
+		optional int32 btn_status = 5[default = 0];	//按钮状态:[0:不可领取][1:可领取][2:前往充值][3:购买按钮,4:已领取,5:已售罄][6:购买月票][7:可以分享,8:不可以分享][9:可以兑换,10:不可以兑换]
+		optional int32 param1 = 6[default = 0];
+		optional int32 param2 = 7[default = 0];
+		repeated one_act_award expend_list = 8;	//消耗道具列表
+	}
+
+	optional uint32 act_id = 1[default = 0];
+	optional int32 act_type = 2[default = 0];
+	optional int32 start_time = 3[default = 0];	//开始时间
+	optional int32 end_time = 4[default = 0];	//结束时间
+	optional string act_name = 5[default = ''];	//活动名称
+	optional string act_content = 6[default = ''];
+	optional string act_rules = 7[default = ''];	//活动规则
+	optional int32 act_bg = 8[default = 0];	//背景编号
+	repeated one_act_tag tag_list = 9;	//活动的标签列表
+
+	optional int32 jijin_vip_level = 10[default = 0];	//基金可购买的VIP等级
+	optional int32 jijin_buyer_num = 11[default = 0];	//基金购买人数
+	optional int32 param1 = 12[default = 0];
+	optional int32 sel_bg = 13[default = 0];	//选择框背景图
+}
+
+message req_act_list
+{
+	repeated uint32 cached_act_id_list = 1;	//客户端已经缓存过的活动id
+}
+
+message rsp_act_list
+{
+	optional int32 result = 1[default = 0];
+	repeated one_act_record act_list = 2;	//活动列表
+	repeated uint32 red_tips_list = 3;	//红点提示活动列表
+}
+
+message req_read_list
+{
+	repeated uint32 read_act_id_list = 1;	//客户端已经浏览过的活动id
+}
+
+message rsp_read_list
+{
+	optional int32 result = 1[default = 0];
+	repeated uint32 red_tips_list = 2;	//红点提示活动列表
+}
+
+message req_take_award
+{
+	optional uint32 act_id = 1[default = 0];
+	optional int32 tag_index = 2[default = 0];	//标签序号，从1开始
+}
+
+message rsp_take_award
+{
+	optional int32 result = 1[default = 0];
+	optional int32 tag_index = 2[default = 0];	//标签序号，从1开始
+	repeated common.award_info award_list = 3;	//奖励
+	optional uint32 act_id = 4[default = 0];
+}
+
+message ntf_act_chg
+{
+	optional one_act_record act_info = 1;	//变化了的活动
+}
+
+message req_buy_jijin
+{
+}
+
+message rsp_buy_jijin
+{
+	optional int32 result = 1[default = 0];
+}
+message req_act_share
+{
+	optional int32 share_type = 1[default = 0];
+	optional int32 cond = 2[default = 0];
+	optional uint32 act_id = 3[default = 0];
+}
+message rsp_act_share
+{
+	optional int32 result = 1[default = 0];
+}
+message ntf_red_spot
+{
+	optional int32 act_type = 1[default = 0];
+}

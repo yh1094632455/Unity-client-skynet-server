@@ -1,0 +1,228 @@
+package manor;
+
+import 'common.proto';
+
+message one_building
+{
+	//0官署，1农田 2工坊 3税司 4冶炼所 5药坊 6商埠
+	optional int32 building_type = 1[default = 1];
+	optional int32 level = 2[default = 1]; 
+	repeated int32 wujiang_list = 3;	//建筑放置的武将
+}
+
+message req_manor_detail
+{
+
+}
+
+message rsp_manor_detail
+{
+	optional int32 result = 1[default = 0];	//-1表示还未到收获时间，此时根据next_gain_time重新修正
+	repeated one_building building_list = 2;	//建筑的信息
+	optional int32 will_gain_money = 5[default = 0];//下一次可收获的钱
+	optional int32 will_gain_food = 6[default = 0];//下一次可收获的粮食
+	optional int32 will_gain_material = 7[default = 0];//下一次可收获的物资
+	optional int32 will_gain_intensify_point = 8[default = 0];//下一次可收获的强化石
+	optional int32 will_gain_exp_item_id = 9[default = 0];//下一次可收获的经验药
+	optional int32 will_gain_exp_item_count = 10[default = 0];//
+	optional int32 will_gain_shangyu = 11[default  =0];
+
+	optional int32 curr_food = 15[default = 0];	//当前的粮草
+	optional int32 curr_material = 16[default = 0];	//当前的物资
+	optional int32 curr_shangyu = 17[default = 0];	//当前的商誉
+	optional int32 guanshu_level = 18[default = 0];	//官署的信息单独出来
+	optional int32 next_gain_time = 19[default = 0];	//下一次收获的时间
+	optional int32 total_bustle = 20[default = 0];	//总的繁荣度
+	optional int32 will_gain_exp_item_count_decimal = 21[default = 0];//经验药数量小数位
+}
+
+//收获所有的东西
+message req_gain_all
+{
+
+}
+
+message rsp_gain_all
+{
+	optional int32 result = 1[default = 0];
+	optional int32 gain_money = 5[default = 0];//收获的钱
+	optional int32 gain_food = 6[default = 0];//收获的粮食
+	optional int32 gain_material = 7[default = 0];//收获的物资
+	optional int32 gain_intensify_point = 8[default = 0];//收获的强化石
+	optional int32 gain_exp_item_id = 9[default = 0];//收获的经验药
+	optional int32 gain_exp_item_count = 10[default = 0];//
+	optional int32 gain_shangyu = 11[default  =0];
+
+	optional int32 gain_result = 13[default = 0];	//-1表示时间还未到
+}
+
+//官署单独升级
+message req_improve_guanshu
+{
+
+}
+
+message rsp_improve_guanshu
+{
+	optional int32 result = 1[default = 0];
+	repeated one_building unlocked_building_list = 2;
+}
+
+message req_improve_building
+{
+	optional int32 building_type = 1[default = 0];
+}
+
+message rsp_improve_building
+{
+	optional int32 result = 1[default = 0];
+	optional int32 building_type = 2[default = 0];
+	optional int32 curr_level = 3[default = 0];	//当前建筑物的等级
+}
+
+message ntf_manor_info_chg
+{
+	optional int32 curr_food = 1[default = 0];	//当前的粮草
+	optional int32 curr_material = 2[default = 0];	//当前的物资
+	optional int32 curr_shangyu = 3[default = 0];	//当前的商誉
+	optional int32 next_gain_time = 4[default = 0];	//下一次收获的时间
+}
+
+message req_place_wujiang
+{
+	optional int32 building_type = 1[default = 0];
+	optional int32 wujiang_id = 2[default = 0];	
+	optional int32 wujiang_slot = 3[default = 0];//武将位置，1-3
+}
+
+message rsp_place_wujiang
+{
+	optional int32 result = 1[default = 0];
+	optional int32 wujiang_id = 2[default = 0];	
+	optional int32 wujiang_slot = 3[default = 0];//武将位置，1-3
+	optional int32 building_type = 4[default = 0];
+}
+
+message one_shangbu_goods
+{
+	optional int32 item_id = 1[default = 0];	//可购买的id
+	optional int32 count = 2[default = 0];		//可购买的数量
+	optional int32 need_shangyu = 3[default = 0];	//需要的商誉
+	optional int32 need_money = 4[default = 0];	//需要的铜币
+	optional int32 get_item_time = 6[default = 0];	//交割时间,0表示还未买过,否则就是交割时间
+	optional int32 obtained = 7[default = 1];	//是否已经获得了，0表示否，1表示是
+	optional int32 goods_index = 8[default = 0];	
+}
+
+message req_query_shangbu_shop
+{
+}
+
+message rsp_query_shangbu_shop
+{
+	optional int32 result = 1[default = 0];
+	repeated one_shangbu_goods shangbu_goods_list = 2;
+}
+
+message req_buy_from_shangbu_shop
+{
+	optional int32 goods_index = 1[default = 0];
+}
+
+message rsp_buy_from_shangbu_shop
+{
+	optional int32 result = 1[default = 0];
+	optional int32 goods_index = 2[default = 0];
+	optional int32 get_item_time = 3[default = 0];	//交割时间,0表示还未买过,否则就是交割时间
+}
+
+message req_take_shangbu_goods
+{
+	optional int32 goods_index = 1[default = 0];
+}
+
+message rsp_take_shangbu_goods
+{
+	optional int32 result = 1[default = 0];
+	optional int32 goods_index = 2[default = 0];
+	optional common.award_info goods_info = 3;	//
+}
+
+//通知商埠的交易到账
+
+//任务
+message one_manor_task_info
+{
+	optional int32 task_id = 1[default = 0];//任务ID
+	optional int32 star = 2[default = 3];	//任务的星数
+	optional int32 task_slot = 10[default = 0];
+
+	//下面的字段仅在接受了任务的情况下才有
+	optional int32 finish_time = 3[default = 0];	//完成的时间，只有接受了任务才有
+	optional int32 success_percent = 4[default = 0];	//成功的概率
+	repeated int32 wujiang_list = 5;	//放置的武将列表，只有接受了任务才有
+	optional int32 wujiang_total_talent = 6[default = 0];	//武将的总天赋
+	optional int32 refresh_times = 7[default = 0];//刷新的次数
+	optional int32 award_times = 8[default = 1];//奖励倍数
+}
+
+message req_query_task
+{
+
+}
+
+message rsp_query_task
+{
+	optional int32 result = 1[default = 0];
+	repeated int32 used_wujiang_list = 2;	//已经使用过的武将的id
+	optional int32 today_accepted_task_count = 3[default = 0];	//今天已经接受的任务数量
+	repeated one_manor_task_info task_list = 4;
+}
+
+message req_accept_task
+{
+	optional int32 task_slot = 1[default = 0];
+	optional int32 task_id = 2[default = 0];
+	repeated int32 wujiang_list = 3;
+}
+
+message rsp_accept_task
+{
+	optional int32 result = 1[default = 0];
+	optional int32 task_slot = 2[default = 0];
+}
+
+message req_finish_task
+{
+	optional int32 task_slot = 1[default = 0];
+	optional int32 task_id = 2[default = 0];
+}
+
+message rsp_finish_task
+{
+	optional int32 result = 1[default = 0];
+	optional int32 task_id = 2[default = 0];
+	optional int32 success = 3[default = 0];	//是否成功，0不成功，1成功
+	optional common.award_info task_award = 4;
+	repeated common.one_wujiang_get_exp wujiang_exp_list = 8;	//武将经验列表
+	optional int32 wujiang_total_talent = 9[default = 0];	//武将的总天赋
+	optional int32 task_slot = 10[default = 0];
+}
+
+message req_refresh_task
+{
+	optional int32 task_slot = 1[default = 0];//决定刷第几个坑,从1~3
+}
+
+message rsp_refresh_task
+{
+	optional int32 result = 1[default = 0];
+	optional int32 task_slot = 2[default = 0];//决定刷第几个坑,从1~3
+	optional int32 refresh_times = 3[default = 0];//已经刷新的次数
+}
+
+message ntf_task_chg
+{
+	optional one_manor_task_info task_info = 2;
+}
+

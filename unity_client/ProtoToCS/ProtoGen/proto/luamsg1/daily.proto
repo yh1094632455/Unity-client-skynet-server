@@ -1,0 +1,129 @@
+package daily;
+
+import 'common.proto';
+
+message one_activity
+{
+	optional int32 id = 1[default = 0];	//活动ID
+	optional int32 curr_progress = 2[default = 0];	//今天的进度
+	optional int32 progress = 3[default = 0];	//总的进度
+	optional int32 status = 4[default = 0];	//是否已经领取过奖励,0是不可领取,1是可领取，2是已经领取过了
+}
+
+//请求日常信息
+message req_daily_info
+{
+
+}
+message rsp_daily_info
+{
+	//吃饭信息
+	optional int32 result = 1[default = 0];
+	optional int32 dining_flag = 3[default = 0];	//吃饭标记，与上0x1表示已经吃过早饭，0x2已经吃过晚饭
+	repeated one_activity activity_list = 10;	//活动列表
+	optional int32 zhaocai_count = 11[default = 0];	//招财次数
+
+	optional int32 yulong_yueka_left_day = 13[default = 0];	//月卡剩余天数
+	optional int32 wushuang_yueka_left_day = 14[default = 0];	//月卡剩余天数
+}
+
+//请求吃饭
+message req_dining
+{
+
+}
+
+message rsp_dining
+{
+	optional int32 result = 1[default = 0];
+	optional int32 get_stamina = 2[default = 0];	//得到的体力
+	optional int32 dining_flag = 3[default = 0];	//当前的吃饭标记
+}
+
+//招财的结果
+message one_zhaocai_result
+{
+	optional int32 get_game_money = 1[default = 0];	//得到的铜币
+	optional int32 baoji_multiple = 2[default = 0];	//暴击倍数
+}
+
+//连续招财
+message req_zhaocai
+{
+	optional int32 count = 1[default = 0];	//连续招财的数量
+}
+
+message rsp_zhaocai
+{
+	optional int32 result = 1[default = 0];
+	repeated one_zhaocai_result zhaocai_result_list = 2;
+	optional int32 costed_yuanbao = 3[default = 0];
+}
+
+//领取奖励
+message req_take_activity_award
+{
+	optional int32 id = 1[default = 0];	//活动ID
+}
+
+message rsp_take_activity_award
+{
+	optional int32 result = 1[default = 0];
+	repeated common.award_info award_list = 2;
+}
+
+//通知活动变化
+message ntf_activity_chg
+{
+	repeated one_activity activity_list = 1;	//活动列表
+}
+
+message ntf_zhaocai_chg
+{
+	optional int32 zhaocai_count = 1[default = 0];	//当前的招财次数
+}
+
+///签到
+message req_sign_award_list
+{
+}
+
+message rsp_sign_award_list
+{
+	optional int32 result = 1[default = 0];
+	optional int32 this_month_taken_times = 2[default = 0];	//本月提取的次数
+	optional int32 today_have_taken = 3[default = 0];	//今天已经领取了,0表示未领，1表示今天已经领了
+	optional int32 today_vip_double_flag = 4[default = 0];	//假如今天是有VIP双倍的，这个标记为0表示今天的VIP双倍还未领，为1则表示VIP双倍已经领取了
+	repeated common.one_item award_list = 5;
+	optional int32 month = 6[default = 0];
+}
+
+message req_take_sign_award
+{
+
+}
+
+message rsp_take_sign_award
+{
+	optional int32 result = 1[default = 0];
+	repeated common.one_item show_award_list = 2;
+	repeated common.award_info real_award_list = 3;	//实际上得到的奖励
+}
+
+message req_take_vip_sign_award
+{
+}
+
+message rsp_take_vip_sign_award
+{
+	optional int32 result = 1[default = 0];
+	repeated common.one_item show_award_list = 2;
+	repeated common.award_info real_award_list = 3;	//实际上得到的奖励
+}
+
+message ntf_update_sign_info
+{
+	optional int32 this_month_taken_times = 2[default = 0];	//本月提取的次数
+	optional int32 today_have_taken = 3[default = 0];	//今天已经领取了,0表示未领，1表示今天已经领了
+	optional int32 today_vip_double_flag = 4[default = 0];	//假如今天是有VIP双倍的，这个标记为0表示今天的VIP双倍还未领，为1则表示VIP双倍已经领取了
+}

@@ -1,0 +1,78 @@
+package worldboss;
+
+import "common.proto";
+
+message req_world_boss_info
+{
+
+}
+
+message rsp_world_boss_info
+{
+	optional int32 result = 1[default = 0];
+	optional int32 fought_flag = 2[default = 0];// 与0x1表示上午场次已经打过了，与上0x2表示下午场次已经打过
+	optional int32 noon_boss_hp = 3[default = 0];
+	optional int32 noon_harm_num = 4[default = 0];	//上午的伤害百分比
+	optional int32 noon_kill_time = 5[default = 0];	//上午的击杀时间
+
+	optional int32 night_boss_hp = 6[default = 0];
+	optional int32 night_harm_num = 7[default = 0];
+	optional int32 night_kill_time = 9[default = 0];
+	optional int32 boss_index = 10[default = 0];//boss在配置表中的序号
+	optional int32 enhanced_atk = 11[default = 0];	//攻击增强百分比次数
+	optional int32 boss_id = 12[default = 0];
+}
+
+message req_enter_fight
+{
+	optional uint32 copy_seq = 1[default = 0];
+	optional common.one_buzhen_info buzhen_info = 3;
+	optional common.one_hire_wujiang_info hire_wujiang_info = 4;
+}
+
+message rsp_enter_fight
+{
+	optional int32 result=1[default = 0];
+	optional int32 boss_level = 2[default = 0];
+	optional bytes check_data = 3;
+	optional int32 memory_check = 4[default = 1];	//0表示不需要内存校验，1表示需要
+	optional uint32 fighting_seq = 5[default = 0];	//战斗的序号
+	optional uint32 copy_seq = 7[default = 0];
+	repeated common.one_wujiang wujiang_info_list=8;
+	optional uint32 seed = 10[default = 0];
+	optional int32 boss_id = 11[default = 0];
+}
+
+message req_finish_fight
+{
+	optional bytes battle_data = 1;
+	optional bytes unchecked_result = 2;
+	optional uint32 copy_seq = 7[default = 0];
+}
+
+message rsp_finish_fight
+{
+	optional int32 result = 1[default = 0];//1战斗结果异常，2超时了，
+	optional uint32 copy_seq = 2[default = 0];
+	//repeated common.award_info award_list = 2;	//奖励列表
+	repeated common.award_info award_list1 = 3;
+	repeated common.award_info award_list2 = 4;
+	repeated common.award_info award_list3 = 5;
+	repeated common.award_info award_list4 = 6;
+	repeated common.award_info award_list5 = 7;
+	optional int32 harm_percent = 8[default = 0];//乘以1000的 
+	optional int32 consumed_time = 9[default = 0];//乘以10的
+	optional int32 my_rank = 10[default = 0];	//我的排名，0代表未上榜
+	optional int32 fighting_result = 11[default = 0];//0表示未击败BOSS,1表示击败
+}
+
+message req_enhance_atk
+{
+
+}
+
+message rsp_enhance_atk
+{
+	optional int32 result = 1[default = 0];
+	optional int32 enhanced_atk = 2[default = 0];	//当前提升的攻击次数
+}

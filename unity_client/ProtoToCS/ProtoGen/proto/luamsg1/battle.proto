@@ -1,0 +1,11 @@
+package battle;
+
+message req_check
+{
+	optional bytes battle_data = 1;
+}
+
+message rsp_check
+{
+	optional bytes check_result = 1;
+}

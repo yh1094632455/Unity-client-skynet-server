@@ -1,0 +1,11 @@
+E:\Workspace\Unity\simplerpg\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+E:\Workspace\Unity\simplerpg\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+E:\Workspace\Unity\simplerpg\Temp\UnityVS_bin\Debug\UnityEditor.dll
+E:\Workspace\Unity\simplerpg\Temp\UnityVS_bin\Debug\UnityEngine.dll
+E:\Workspace\Unity\simplerpg\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+E:\Workspace\Unity\simplerpg\Temp\UnityVS_bin\Debug\UnityEngine.xml
+E:\Workspace\Unity\simplerpg\Temp\UnityVS_bin\Debug\UnityEditor.xml
+E:\Workspace\Unity\simplerpg\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+E:\Workspace\Unity\simplerpg\obj\Debug\UnityVS.simplerpg.CSharp.csprojResolveAssemblyReference.cache
+E:\Workspace\Unity\simplerpg\obj\Debug\Assembly-CSharp.dll
+E:\Workspace\Unity\simplerpg\obj\Debug\Assembly-CSharp.pdb

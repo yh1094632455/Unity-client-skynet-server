@@ -1,0 +1,266 @@
+package db;
+
+message one_guild_apply_info
+{
+	optional uint32 gid = 1[default = 0];
+	optional int32 time = 2[default = 0];
+}
+
+message one_guild_exit_info
+{
+	optional uint32 gid = 1[default = 0];
+	optional int32 time = 2[default = 0];
+}
+
+message one_guild_join_info
+{
+	optional uint32 gid = 1[default = 0];
+	optional int32 time = 2[default = 0];
+}
+
+message one_mojin_info
+{
+	optional int32 today_mojin_count = 1[default = 0];	//今天摸金的次数
+	optional int32 last_mojin_time = 2[default = 0];	//上一次摸金的时间
+	optional int32 reward_money = 3[default = 0];	//奖励的金币
+	optional int32 enter_time = 4[default = 0];	//进入副本的时间
+	optional int32 copy_id = 5[default = 0];	//副本id
+}
+
+//有关世界BOSS的战斗信息
+message one_world_boss_info
+{
+	optional uint32 fought_flag = 1[default = 0];	//打过BOSS的记录,与上0x1表示上午，0x2表示下午
+
+	optional int32 noon_boss_hp = 2[default = 0];
+	optional int32 noon_harm_num = 3[default = 0];	//上午的伤害数
+	optional int32 noon_kill_time = 4[default = 0];	//上午的击杀时间
+
+	optional int32 night_boss_hp = 7[default = 0];
+	optional int32 night_harm_num = 8[default = 0];
+	optional int32 night_kill_time = 9[default = 0];
+
+	optional int32 fighting_boss_id = 11[default = 0];	//正在与哪个BOSS决斗
+	optional int32 fighting_boss_level = 12[default = 0];
+	optional uint32 fighting_flag = 13[default = 0];	//正在打的标志，主要是防止打的时候超过时间了
+	optional int32 enter_time = 14[default = 0];	//进入副本的时间
+	optional int32 enhanced_atk = 15[default = 0];	//增强的攻击,1代表100，2表示200 
+	optional uint32 enhanced_fought_flag = 16[default = 0];	//此次增加的类型，早上还是晚上
+	optional int32 fighting_seq = 17[default = 0];
+}
+
+message one_raid_record_info
+{
+	optional int32 item_id = 1[default = 0];
+	optional string guild_name = 2[default = ''];
+	optional string user_name = 3[default = ''];
+	optional int32 fight_result = 4[default = 0];	//0表示对方输了,1表示对方赢了但没抢到东西，2表示对方赢了并抢到东西
+	optional int32 stolen_item_id = 5[default = 0];	//偷走的宝箱道具
+	optional uint64 video_id = 6[default = 0];
+	optional int32 time = 7[default = 0];
+	optional int32 level = 8[default = 0];
+	optional int32 use_icon = 9[default = 0];
+}
+
+message one_shangbu_goods_info
+{
+	optional int32 goods_id = 1[default = 0];	//可购买的id
+	optional int32 buy_item_time = 3[default = 0];	//交割时间,0表示还未买过,否则就是开始时间
+	optional int32 obtained = 4[default = 1];	//是否已经获得了，0表示否，1表示是
+}
+
+message one_manor_info
+{
+	message one_building
+	{
+		optional int32 building_type = 1[default = 1];
+		optional int32 level = 2[default = 1]; 
+		repeated int32 wujiang_list = 3;	//建筑放置的武将
+	}
+
+	message one_manor_task_info
+	{
+		optional int32 task_id = 1[default = 0];
+		optional int32 star = 2[default = 0];
+
+		//下面的字段仅在接受了任务的情况下才有
+		optional int32 accept_time = 3[default = 0];	//接受任务的时间，只有接受了任务才有
+		optional int32 success_percent = 4[default = 0];	//成功的概率
+		repeated int32 wujiang_list = 5;	//放置的武将列表，只有接受了任务才有
+		optional int32 wujiang_total_talent = 6[default = 0];	//武将的总天赋
+		optional int32 refresh_times = 7[default = 0];//刷新次数
+		optional int32 award_times = 8[default = 1];//奖励倍数
+	}
+
+	optional int32 guanshu_level = 1[default = 0];	//官署的信息单独出来
+	repeated one_building building_list = 2;
+	optional int32 last_gain_time = 3[default = 0];	//上一次结算时间
+
+	optional int32 curr_food = 5[default = 0];	//当前的粮草
+	optional int32 curr_material = 6[default = 0];	//当前的物资
+	optional int32 curr_shangyu = 7[default = 0];	//当前的商誉
+
+	optional int32 last_refresh_shangbu_shop = 8[default = 0];	//上一次刷新的时间
+	repeated one_shangbu_goods_info shangbu_goods_list = 9;
+	repeated one_manor_task_info task_list = 10;
+	repeated int32 used_wujiang_list = 11;	//已经使用过的武将的id
+	optional int32 today_accepted_task_count = 12[default = 0];
+	optional int32 today_accepted_first_task_time = 13[default = 0];	//今天接第一个任务的时间
+	optional int32 exp_item_count_decimal = 14;//产出道具的小数位
+}
+message qiyu_event
+{
+	optional int32 wujiang_id=1[default = 0];
+	optional int32 qiyu_id=2[default = 0];
+}
+message youli_wujiang
+{
+	optional int32 wujiang_id=1[default = 0];
+	optional int32 begin_time=2[default = 0];
+	optional int32 wujiang_level=3[default = 0];
+	optional int32 wujiang_trench=4[default = 0];
+	optional int32 wujiang_stage=5[default=0];
+	optional int32 wujiang_star=6[default=0];
+	optional int32 qiyu_time = 7[default = 0];
+}
+
+message one_liezhuan_record
+{
+	optional int32 country = 1[default = 0];
+	optional int32 today_finished_times = 2[default = 0];
+}
+
+message one_liezhuan_info
+{
+	repeated one_liezhuan_record today_record_list = 1;
+}
+
+message saima_wujiang
+{
+	optional int32 wujiang_id = 1[default = 0];
+	optional int32 star = 2[default = 0];
+	optional int32 stage = 3[default = 0];
+	optional int32 level = 4[default = 0];
+	optional int32 trench = 5[default = 0];
+	optional int32 horse_id = 6[default = 0];
+	optional int32 power = 7[default = 0];
+	optional int32 speed = 8[default = 0];
+	optional int32 horse_stage = 9[default = 0];
+}
+message saima_member
+{
+	optional uint32 uid = 1[default = 0];
+	repeated saima_wujiang wujiang_list = 2;
+	optional int32 integral = 3[default = 0];
+	optional int32 rank = 4[default = 0];
+}
+
+message one_saima_info
+{
+	optional saima_member self_saima = 1;
+	repeated saima_member rival_list = 2;
+	optional int32 saima_round = 3[default = 0];
+	optional int32 if_start_saima = 5[default = 0];//1为已经进入过赛马
+	optional int32 map_seed = 6[default = 0];
+}
+
+message one_warlords_report
+{
+	optional int32 time = 1[default = 0];
+	optional int32 event_id = 2[default = 0];
+	optional int32 war_id = 3[default = 0];
+
+	optional int64 video_id = 4[default = 0];
+
+	optional int32 param1 = 10[default = 0];
+	optional int32 param2 = 11[default = 0];
+
+	optional string str1 = 15[default = ''];
+	optional string str2 = 16[default = ''];
+}
+
+message one_warlords_info
+{
+	optional int32 today_warlords_times = 1[default = 0];	//今天群雄的次数
+	repeated int32 used_wujiang_list = 2;	//已上阵过的武将列表
+	repeated one_warlords_report report_list = 3;
+}
+
+message one_charge_act_red_spot
+{
+	optional int32 red_spot_time = 1[default = 0];
+	optional int32 act_type = 2[default = 0];
+}
+message share_act_info
+{
+	optional int32 share_type = 1[default = 0];//分享的类型
+	optional uint32 shared_flag = 2[default = 0];//分享标记
+	optional uint32 get_award_flag = 3[default = 0];//领奖标记
+}
+message one_share_act
+{
+	repeated share_act_info share_act_list =1;
+}
+message saima_monster_info
+{
+	optional int32 last_show_saima_monster_time = 1[default = 0];
+	optional int32 show_monster_index = 2[default = 0];
+	optional int32 show_monster_round = 3[default = 0];
+}
+message one_dianjiang_info
+{
+	optional int32 week_dianjiang_cost = 1[default = 0];//累计的充值元宝
+	optional int32 is_take_recharge_award = 2[default = 0];//0为未领过充值奖励，1为领过充值奖励
+	optional int32 last_reset_week_time = 3[default = 0];//上次重置月份数据的时间
+	optional int32 random_wujiang_fail_times = 4[default = 0];//距离上次抽到武将到现在抽将失败的次数
+	optional int32 today_dianjiang_times = 5[default = 0];//当天点将的次数
+}
+//所有杂事就丢在这里吧
+message Trivial
+{
+	repeated one_guild_apply_info apply_list = 1;
+	repeated one_guild_exit_info guild_exit_list = 2;	//退团记录
+	repeated one_guild_join_info guild_join_list = 3;	//主要用于记录7天内的入团数
+	optional one_mojin_info mojin_info = 4;	//摸金的相关数据信息
+
+	optional one_world_boss_info world_boss_info = 5;	//世界BOSS相关的数据信息
+
+	repeated one_raid_record_info zhenfa_raid_record_list = 6;	//阵法抢夺相关的数据
+	optional int32 zhenfa_safe_time = 7[default = 0];
+
+	optional one_manor_info manor_info = 8;	//领地系统的数据
+	repeated uint32 blacklist = 10;	//黑名单
+
+	//次数相关
+	repeated uint32 today_worship_list = 15;	//今天膜拜的列表
+	optional int32 today_arena_times = 16[default = 0];//已挑战竞技场的次数
+	optional int32 buy_arena_times = 17[default = 0];//当天已购买的竞技场挑战次数
+	optional int32 today_raid_times = 18[default = 0];//当天已突袭的次数
+	optional int32 buy_raid_times = 19[default = 0];//当天已购买的突袭次数
+	optional int32 today_buy_stamina_count = 20[default = 0];
+	optional int32 today_buy_skill_point_count = 21[default = 0];	//今天购买技能点的次数
+	repeated qiyu_event qiyuevent=22;
+	repeated youli_wujiang wujianglist=23;
+	//optional int32 youli_time=24[default = 0];
+	repeated uint32 have_hire_list=25;
+	optional uint32 permanent_flag = 26[default = 0];
+	optional int32 last_nanman_copy_level = 27[default = 0];
+	optional int32 today_nanman_times = 28[default = 0];
+	optional one_liezhuan_info liezhuan_info = 30;	//列传
+	optional int32 world_speak_times = 31[default = 0];//当天世界频道发言的次数
+	optional int32 nanman_copy_difficulty = 32[default = 1];//南蛮副本的难度
+	optional int32 nanman_copy_difficulty_change = 33[default = 0];//南蛮副难度变化1为变化，0为不变化
+	optional int32 get_sevenday_award_times = 34[default = 1];//七天奖励领取的次数
+	optional int32 get_last_sevenday_award_time = 35[default = 0];//七天奖励上次领取的时间
+	optional int32 get_fengce_award_time = 36[default = 0];//当天封测奖励是否领取fengce
+	optional int32 raid_record_mak = 37[default = 0];//1为有新的录像，0为没有
+	optional one_saima_info saima_info = 38;//赛马的相关数据
+	optional one_warlords_info warlords_info = 40;
+	optional int32 saima_times = 41[default = 0];
+	optional int32 last_report_time = 42[default = 0];//群雄最后一次战报的时间
+	optional one_charge_act_red_spot act_charge_red_spot_info = 43;	//充值活动红点记录
+	optional one_share_act share_act = 44;//分享活动数据
+	optional int32 raid_failed_times = 45[default = 0];//抢夺失败的次数
+	optional saima_monster_info saima_monster = 46;//赛马怪兽信息
+	optional one_dianjiang_info dianjiang_info = 47; 
+}

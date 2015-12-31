@@ -1,0 +1,165 @@
+package copy;
+
+import "common.proto";
+
+//请求所有的布阵信息
+message req_buzhen_info
+{
+
+}
+
+message rsp_buzhen_info
+{
+	optional int32 result = 1[default = 0];
+	repeated common.one_buzhen_info all_buzhen_info = 2;
+	optional int32 zhenfa_count = 3[default = 5];//可以放的阵法的上限
+	optional common.nanman_buzhen_info nanman_buzhen = 4;
+}
+
+//请求设置布阵信息
+message req_set_buzhen
+{
+	optional common.one_buzhen_info buzhen_info = 1;
+}
+
+message rsp_set_buzhen
+{
+	optional int32 result = 1[default = 0];
+}
+
+
+//一条通关信息
+message one_pass_info
+{
+	optional int32 copy_id = 1[default = 0];
+	optional int32 pass_star = 2[default = 0];
+	optional int32 today_count = 3[default = 0];
+	optional int32 today_reset_count = 4[default = 0];
+}
+
+//一个盒子信息
+message one_box_info
+{
+	optional int32 section_id = 1[default = 0]; // 章节id
+	optional int32 box_id = 2[default = 0];	// 盒子id
+	optional int32 copy_type = 3[default = 0];	// 精英还是普通
+	optional int32 cur_stars = 4[default = 0]; // 你当前本章的星星数
+	optional int32 box_state = 5[default = 0];	// 是否达到领取条件 0 未达到条件 1可以领取 2领取完
+}
+
+//查询通关的副本列表
+message req_pass_list
+{
+	
+}
+
+message rsp_pass_list
+{
+	optional int32 result = 1[default = 0];
+	repeated one_pass_info pass_list = 2;	//通关的副本信息
+	repeated one_box_info star_box_list = 3;	 //每个章节盒子信息
+}
+
+//扫荡副本
+message req_sweep_copy
+{
+	optional int32 copy_id = 1[default = 0];
+	optional int32 use_yuanbao = 2[default = 0];	//是否使用元宝代替
+	optional int32 count = 3[default = 1];	//扫荡次数
+}
+
+message rsp_sweep_copy
+{
+	optional int32 result = 1[default = 0];	//0代表成功，-1代表次数已经满了,-2代表军令不够，-3代表元宝不够,-4代表体力不足
+	optional int32 copy_id = 2[default = 0];
+
+	message one_sweep_award
+	{
+		optional common.award_info spec_item = 5;	// 特殊掉落
+		repeated common.award_info drop_list = 6;	//掉落列表
+		repeated common.award_info extra_drop_list = 7;	//额外掉落列表
+	}
+
+	repeated one_sweep_award award_list = 3;
+}
+
+message ntf_pass_chg
+{
+	optional one_pass_info pass_info = 1;//通知通关副本信息改变
+}
+
+message req_reset
+{
+	optional int32 copy_id = 1[default = 0];	//请求重置的副本
+}
+
+message rsp_reset
+{
+	optional int32 result = 1[default = 0];  //-1还有剩余次数
+	optional int32 copy_id = 2[default = 0];
+}
+
+
+//请求进入副本
+message req_enter_copy
+{
+	optional int32 copy_id = 1[default = 0];	//进入副本
+	optional uint32 copy_seq = 5[default = 0];
+	optional common.one_buzhen_info buzhen_info = 3;
+	optional common.one_hire_wujiang_info hire_wujiang_info = 4;
+}
+
+message rsp_enter_copy
+{
+	optional int32 result = 1[default = 0];	//-1次数不够，-2体力不够 -3雇佣武将失败
+	repeated common.one_item drop_list = 2;	//掉落列表
+	repeated common.one_item boss_drop_list = 3;	//boss掉落列表
+	optional uint32 seed = 4[default = 0];	//个人的随机种子
+	optional uint32 copy_seq = 5[default = 0];
+	optional int32 copy_id = 6[default = 0];
+	repeated common.one_wujiang wujiang_info_list=7;
+}
+
+//报告副本通关
+message req_finish_copy
+{
+	optional int32 copy_id = 1[default = 0];	
+	optional uint32 copy_seq = 2[default = 0];
+	optional int32 pass_star = 3[default = 0];	//通关获得的星星
+	optional int32 take_time = 4[default = 0];	//通关花费的时间
+	optional int32 finish_result = 5[default = 0];	//结果，0通关，1不通关
+}
+
+message rsp_finish_copy
+{
+	optional int32 result = 1[default = 0];//-1异常
+	optional int32 copy_id = 2[default = 0];	
+	optional uint32 copy_seq = 3[default = 0];
+	optional int32 finish_result = 4[default = 0];	//战斗结果
+
+	optional common.award_info spec_item = 6;	// 特殊掉落
+	repeated common.award_info drop_list = 7;	//掉落列表
+	repeated common.one_wujiang_get_exp wujiang_exp_list = 8;	//武将经验列表
+	optional int32 total_exp = 9[default = 0];
+}
+
+//点击盒子获取奖励
+message req_get_box_copy
+{
+	optional int32 box_id = 1[default = 0]; // 盒子id
+	optional int32 section_id = 2; // 章节id
+	optional int32 copy_type = 3; // 关卡类型
+}
+
+message rsp_get_box_copy
+{
+	optional int32 result = 1[default = 0]; // -1异常
+	repeated common.award_info box_award_list = 2;  // 奖励列表
+}
+
+//通知玩家当前星星和盒子变化
+message ntf_stars_chg
+{
+	optional one_box_info star_box_info = 1;	
+}
+
